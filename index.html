@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Le dossier impossible · FMTTN</title><style>/* FMTTN — Le Dossier impossible. Composant autonome et isolé. */
+#fmt-escape-game, #fmt-escape-game * {box-sizing:border-box}
+#fmt-escape-game {
+ --fmt-ink:#152c42;--fmt-muted:#557083;--fmt-line:#d8e3ea;--fmt-bg:#f2f6fa;
+ --fmt-surface:#fff;--fmt-teal:#176d72;--fmt-teal-light:#e7f6f3;
+ --fmt-gold:#b16c13;--fmt-gold-light:#fff6e8;--fmt-danger:#a53b38;
+ position:relative;display:block;width:100%;max-width:1200px;margin:24px auto;
+ color:var(--fmt-ink);background:var(--fmt-bg);border:1px solid var(--fmt-line);
+ border-radius:18px;overflow:hidden;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+ font-size:16px;line-height:1.5;text-align:left;box-shadow:0 12px 38px rgba(19,42,63,.08)
+}
+#fmt-escape-game button,#fmt-escape-game input,#fmt-escape-game select {font:inherit}
+#fmt-escape-game button {cursor:pointer}
+#fmt-escape-game button:disabled {cursor:not-allowed;opacity:.55}
+#fmt-escape-game :focus-visible {outline:3px solid #efb14a;outline-offset:2px}
+#fmt-escape-game .fmt-top {background:linear-gradient(120deg,#173851,#135a63);color:#fff;padding:24px 30px 22px}
+#fmt-escape-game .fmt-eyebrow {margin:0 0 6px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#bcdce1;font-weight:750}
+#fmt-escape-game .fmt-heading {font-size:clamp(24px,3vw,34px);font-weight:800;margin:0;line-height:1.15;color:#fff}
+#fmt-escape-game .fmt-subhead {font-size:14px;margin:9px 0 0;max-width:760px;color:#e0eff3}
+#fmt-escape-game .fmt-progress {display:flex;gap:7px;margin-top:20px}
+#fmt-escape-game .fmt-progress span {height:7px;flex:1;background:rgba(255,255,255,.25);border-radius:100px}
+#fmt-escape-game .fmt-progress span.fmt-done {background:#9fdfcd}
+#fmt-escape-game .fmt-progress span.fmt-current {background:#f2bc65}
+#fmt-escape-game .fmt-main {padding:27px 30px 30px;min-height:420px}
+#fmt-escape-game .fmt-kicker {font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--fmt-teal);margin:0 0 8px}
+#fmt-escape-game h2 {color:var(--fmt-ink);font-size:clamp(22px,2.6vw,29px);margin:0 0 8px;line-height:1.22;font-weight:800}
+#fmt-escape-game h3 {color:var(--fmt-ink);font-size:17px;margin:0 0 8px;font-weight:750}
+#fmt-escape-game p {margin:0 0 12px}
+#fmt-escape-game .fmt-lead {color:var(--fmt-muted);font-size:15px;max-width:860px}
+#fmt-escape-game .fmt-card {background:#fff;border:1px solid var(--fmt-line);border-radius:13px;padding:20px}
+#fmt-escape-game .fmt-soft {background:#eff8f9;border-color:#c5e2e4}
+#fmt-escape-game .fmt-flex {display:flex;align-items:center;gap:12px}
+#fmt-escape-game .fmt-between {justify-content:space-between}
+#fmt-escape-game .fmt-wrap {flex-wrap:wrap}
+#fmt-escape-game .fmt-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+#fmt-escape-game .fmt-grid-3 {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+#fmt-escape-game .fmt-panel {background:#fff;border:1px solid var(--fmt-line);border-radius:12px;overflow:hidden}
+#fmt-escape-game .fmt-panel-header {padding:13px 16px;background:#e9f0f5;border-bottom:1px solid var(--fmt-line);font-size:14px;font-weight:800}
+#fmt-escape-game .fmt-panel-body {padding:16px}
+#fmt-escape-game .fmt-btn {display:inline-flex;align-items:center;justify-content:center;gap:8px;appearance:none;border:1px solid #176d72;background:#176d72;color:#fff;border-radius:10px;padding:11px 18px;font-weight:750;line-height:1.25;min-height:44px;text-decoration:none;white-space:normal}
+#fmt-escape-game .fmt-btn:hover:not(:disabled){background:#11565c}
+#fmt-escape-game .fmt-btn-secondary {background:#fff;color:var(--fmt-teal);border-color:#9ecbcd}
+#fmt-escape-game .fmt-btn-secondary:hover:not(:disabled){background:#e8f5f4}
+#fmt-escape-game .fmt-btn-subtle {background:transparent;color:var(--fmt-muted);border-color:var(--fmt-line)}
+#fmt-escape-game .fmt-btn-subtle:hover:not(:disabled){background:#eaf1f6}
+#fmt-escape-game .fmt-actions {display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+#fmt-escape-game .fmt-mini {font-size:13px;color:var(--fmt-muted)}
+#fmt-escape-game .fmt-note {border-left:4px solid #62969a;background:#edf6f6;padding:11px 14px;border-radius:0 9px 9px 0;font-size:14px;margin-top:14px}
+#fmt-escape-game .fmt-remark {font-size:13px;color:var(--fmt-muted);padding-top:7px}
+#fmt-escape-game .fmt-pill {display:inline-block;border-radius:99px;background:#e9f3f4;color:#155b62;padding:3px 9px;font-size:12px;font-weight:750}
+#fmt-escape-game .fmt-file-list {list-style:none;margin:0;padding:0}
+#fmt-escape-game .fmt-file-item {display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #eaf0f3}
+#fmt-escape-game .fmt-file-item:last-child {border-bottom:0}
+#fmt-escape-game .fmt-file-symbol {display:grid;place-items:center;width:38px;height:42px;border-radius:7px;color:#255875;background:#e8f0f6;font-weight:800;font-size:13px;flex-shrink:0}
+#fmt-escape-game .fmt-file-info {flex:1;min-width:0}
+#fmt-escape-game .fmt-file-name {font-weight:720;overflow-wrap:anywhere;font-size:14px}
+#fmt-escape-game .fmt-file-meta {font-size:12px;color:var(--fmt-muted);margin-top:2px}
+#fmt-escape-game .fmt-file-item.fmt-selected {background:#e7f5f5;box-shadow:inset 4px 0 #176d72}
+#fmt-escape-game .fmt-file-item .fmt-btn {font-size:13px;min-height:35px;padding:6px 10px}
+#fmt-escape-game .fmt-two-cols {display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr);gap:15px;margin-top:17px;align-items:start}
+#fmt-escape-game .fmt-detail {font-size:14px;min-height:230px}
+#fmt-escape-game dl {display:grid;grid-template-columns:130px 1fr;gap:8px 12px;margin:12px 0}
+#fmt-escape-game dt {font-weight:760;color:var(--fmt-muted)}
+#fmt-escape-game dd {margin:0;overflow-wrap:anywhere}
+#fmt-escape-game .fmt-alert {background:#fff6e6;border:1px solid #e8c78f;border-radius:12px;padding:15px 18px;margin-top:16px;color:#584018}
+#fmt-escape-game .fmt-success {background:#e7f6ee;border-color:#b1d7bd;color:#1c563d}
+#fmt-escape-game .fmt-danger {background:#fff1f0;border-color:#e6b6b2;color:#813733}
+#fmt-escape-game .fmt-alert p:last-child {margin-bottom:0}
+#fmt-escape-game .fmt-alert strong {display:block;margin-bottom:5px}
+#fmt-escape-game .fmt-folder-layout {display:grid;grid-template-columns:minmax(245px,.88fr) minmax(0,1.12fr);gap:15px;margin-top:18px}
+#fmt-escape-game .fmt-source-card {display:flex;gap:10px;align-items:center;text-align:left;width:100%;border:1px solid #d4e0e8;border-radius:10px;background:#fff;padding:10px;margin:0 0 8px;color:var(--fmt-ink)}
+#fmt-escape-game .fmt-source-card:hover,#fmt-escape-game .fmt-source-card.fmt-selected {background:#e5f4f2;border-color:#71aeb0}
+#fmt-escape-game .fmt-source-card[draggable="true"] {cursor:grab}
+#fmt-escape-game .fmt-source-card[draggable="true"]:active {cursor:grabbing}
+#fmt-escape-game .fmt-source-card .fmt-file-name {font-size:13px}
+#fmt-escape-game .fmt-folder-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+#fmt-escape-game .fmt-folder {border:2px dashed #b8cbd7;border-radius:10px;min-height:140px;padding:12px;background:#f9fcfd}
+#fmt-escape-game .fmt-folder.fmt-drop-active {border-color:#207d81;background:#e5f5f3}
+#fmt-escape-game .fmt-folder-head {display:block;color:#245b72;font-weight:800;font-size:13px;margin-bottom:8px;padding:0;border:0;background:none;text-align:left;width:100%}
+#fmt-escape-game .fmt-folder-contents {display:flex;flex-direction:column;gap:6px}
+#fmt-escape-game .fmt-chip {border:1px solid #d2e0e8;background:#fff;color:#28445c;padding:6px 8px;border-radius:7px;font-size:12px;text-align:left;overflow-wrap:anywhere}
+#fmt-escape-game .fmt-chip:hover {background:#e8f3f3}
+#fmt-escape-game .fmt-empty {font-size:12px;color:#7c909e}
+#fmt-escape-game .fmt-choice {display:flex;align-items:flex-start;gap:13px;border:1px solid #d9e4ea;background:#fff;border-radius:12px;padding:14px 16px;margin:0 0 10px;width:100%;text-align:left;color:var(--fmt-ink)}
+#fmt-escape-game .fmt-choice:hover,#fmt-escape-game .fmt-choice.fmt-selected {background:#eaf6f3;border-color:#6caaa8}
+#fmt-escape-game .fmt-choice-key {display:grid;place-items:center;width:31px;height:31px;border-radius:8px;background:#e6eef4;color:#41617a;flex-shrink:0;font-weight:850}
+#fmt-escape-game .fmt-choice-content {font-size:14px}
+#fmt-escape-game .fmt-choice-content strong {display:block;margin-bottom:3px}
+#fmt-escape-game .fmt-end-steps {padding:0;list-style:none;margin:14px 0;display:grid;gap:9px}
+#fmt-escape-game .fmt-end-steps li {padding:12px 14px;background:#f6f9fb;border:1px solid #dfebf0;border-radius:9px;font-size:14px}
+#fmt-escape-game .fmt-footer {padding:13px 28px;background:#e7eef3;color:#5b7184;font-size:12px;border-top:1px solid var(--fmt-line)}
+#fmt-escape-game .fmt-sr {border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;white-space:nowrap}
+#fmt-escape-game .fmt-stats {display:flex;gap:18px;color:var(--fmt-muted);font-size:13px;flex-wrap:wrap;margin:16px 0}
+#fmt-escape-game .fmt-disclaimer {margin-top:15px;font-size:12px;color:var(--fmt-muted)}
+@media (max-width:760px) {
+ #fmt-escape-game .fmt-top{padding:22px 18px}
+ #fmt-escape-game .fmt-main{padding:22px 16px}
+ #fmt-escape-game .fmt-two-cols,#fmt-escape-game .fmt-folder-layout,#fmt-escape-game .fmt-grid,#fmt-escape-game .fmt-grid-3{grid-template-columns:1fr}
+ #fmt-escape-game .fmt-folder-grid{grid-template-columns:1fr}
+ #fmt-escape-game .fmt-file-item{padding:10px;flex-wrap:wrap}
+ #fmt-escape-game .fmt-file-item .fmt-btn{margin-left:50px}
+ #fmt-escape-game dl{grid-template-columns:104px 1fr}
+}
+@media (prefers-reduced-motion:no-preference) {#fmt-escape-game button{transition:background .14s,border-color .14s}}
+@media print {
+ #fmt-escape-game .fmt-btn,#fmt-escape-game .fmt-actions {display:none!important}
+ #fmt-escape-game {box-shadow:none;border:0;background:#fff}
+}
+</style></head><body style="margin:0;padding:18px;background:#e5edf3"><div id="fmt-escape-game" role="region" aria-label="Jeu Le dossier impossible">
+  <div class="fmt-top">
+    <p class="fmt-eyebrow">UE 1 · Informations et données · AA2</p>
+    <h1 class="fmt-heading">Le dossier impossible</h1>
+    <p class="fmt-subhead">Un dossier désorganisé. Quatre missions pour le rendre fiable, accessible et réutilisable.</p>
+    <div class="fmt-progress" aria-label="Progression du jeu"><span></span><span></span><span></span><span></span></div>
+  </div>
+  <div class="fmt-main" id="fmt-game-stage" aria-live="polite">
+    <p>Chargement du jeu…</p>
+    <p class="fmt-mini">Si ce message reste affiché après quelques secondes, le JavaScript du jeu est bloqué ou n’a pas été chargé par le site.</p>
+  </div>
+  <div class="fmt-footer">Simulation pédagogique. Documents et personnes fictifs. Aucune donnée personnelle collectée ni transmise.</div>
+  <noscript><p>JavaScript est désactivé dans ton navigateur. Il est nécessaire pour jouer.</p></noscript>
+</div>
+<script>/*
+ * Le dossier impossible — UE 1 / AA2 (FMTTN)
+ * Javascript natif, sans dépendance, sans serveur, sans collecte de données.
+ * Tous les noms et dossiers du scénario sont fictifs.
+ */
+(function () {
+  'use strict';
+  const root = document.getElementById('fmt-escape-game');
+  if (!root || root.dataset.fmtReady === '1') return;
+  root.dataset.fmtReady = '1';
+  const stage = root.querySelector('#fmt-game-stage');
+  if (!stage) return;
+
+  const m1 = [
+    {id:'a',name:'Atelier_EMI_final_v4.docx',type:'DOCX',date:'12/11/2026',where:'Travail en cours',status:'Brouillon',owner:'Équipe projet',comment:'Version récente contenant des corrections non relues.'},
+    {id:'b',name:'PRES_Atelier_EMI_ok.pdf',type:'PDF',date:'09/11/2026',where:'Présentations',status:'Validé',owner:'Coordination',comment:'Support de présentation, pas la fiche opérationnelle demandée.'},
+    {id:'c',name:'fiche_atelier_medias_2026_V2.pdf',type:'PDF',date:'08/11/2026',where:'Références validées',status:'Approuvé le 10/11/2026',owner:'Coordination',comment:'Fiche de référence : objectifs, déroulé, matériel et responsabilités.'},
+    {id:'d',name:'fiche_atelier_EMI_2025.pdf',type:'PDF',date:'03/10/2025',where:'Archives',status:'Validé en 2025',owner:'Coordination',comment:'Décrit la version de l’année précédente.'},
+    {id:'e',name:'notes_reunion_EMI.docx',type:'DOCX',date:'11/11/2026',where:'Réunions',status:'Notes internes',owner:'Équipe projet',comment:'Pistes discutées mais non approuvées.'},
+    {id:'f',name:'fiche_atelier_medias_copie.pdf',type:'PDF',date:'13/11/2026',where:'Téléchargements',status:'Statut inconnu',owner:'Non renseigné',comment:'Copie sans auteur, validation ni traçabilité.'}
+  ];
+  const m2 = [
+    {id:'v1',name:'Procedure_partage_v1.docx',type:'DOCX',date:'04/11/2026',where:'Archives',status:'Obsolète',owner:'Service numérique',comment:'Remplacée le 10 novembre.'},
+    {id:'v2',name:'Procedure_partage_v2-validee.pdf',type:'PDF',date:'10/11/2026',where:'Références validées',status:'Approuvée le 10/11/2026',owner:'Direction',comment:'Texte relu et approuvé. Référence actuellement applicable.'},
+    {id:'v3',name:'Procedure_partage_FINAL_v3.docx',type:'DOCX',date:'15/11/2026',where:'Brouillons',status:'Projet non approuvé',owner:'Groupe de travail',comment:'Intègre de nouvelles propositions qui n’ont pas été validées.'},
+    {id:'v4',name:'Procedure_partage_v2-copie.pdf',type:'PDF',date:'16/11/2026',where:'Téléchargements',status:'Validation non traçable',owner:'Non renseigné',comment:'Copie exportée, sans référence ni historique d’approbation.'}
+  ];
+  const folders = [
+    {id:'pedago',name:'01_Ressources_pedagogiques',purpose:'Documents utilisables dans une activité d’enseignement'},
+    {id:'projet',name:'02_Organisation_et_suivi',purpose:'Planification, réunions et coordination'},
+    {id:'refs',name:'03_Sources_et_references',purpose:'Sources identifiées et références documentaires'},
+    {id:'quarantaine',name:'04_A_verifier',purpose:'Documents dont la provenance ou les droits sont insuffisants'}
+  ];
+  const files = [
+    {id:'f1',name:'Fiche_lecture_laterale.pdf',type:'PDF',target:'pedago'},
+    {id:'f2',name:'Quiz_factchecking.html',type:'HTML',target:'pedago'},
+    {id:'f3',name:'Planning_des_ateliers.ods',type:'ODS',target:'projet'},
+    {id:'f4',name:'CR_coordination_2026-11-10.pdf',type:'PDF',target:'projet'},
+    {id:'f5',name:'Rapport_institutionnel_source.pdf',type:'PDF',target:'refs'},
+    {id:'f6',name:'Index_bibliographique.csv',type:'CSV',target:'refs'},
+    {id:'f7',name:'Photo_sans_auteur_ni_licence.png',type:'PNG',target:'quarantaine'},
+    {id:'f8',name:'Statistiques_sans_source.xlsx',type:'XLSX',target:'quarantaine'}
+  ];
+  const traces = [
+    {id:'t1',title:'Le lien du canal de discussion',body:'« Vu dans une conversation du 11 novembre ». Une image et un commentaire sont joints, sans auteur, méthode ni source du chiffre.'},
+    {id:'t2',title:'Une référence complète et contrôlable',body:'Cellule du projet pédagogique (fictive), « Bilan des ateliers médias 2025 », publié le 16 janvier 2026, tableau 3, page 8. Jeu de données source, méthode de calcul et version du document identifiés.'},
+    {id:'t3',title:'La réponse d’un assistant IA',body:'L’assistant confirme les chiffres, sans lien vers un document original, sans auteur identifié et sans calcul vérifiable.'},
+    {id:'t4',title:'Une capture d’écran du graphique',body:'La capture porte le nom « stats_final.png » ; sa date de création est connue, mais le jeu de données initial est introuvable.'}
+  ];
+
+  const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+  const state = {phase:0,solved:false,chosen:null,feedback:null,hint:false,attempts:0,start:0,locations:{},selectedFile:null,observed:0};
+  const titles = ['','Retrouver le document fiable','Choisir la bonne version','Reclasser les fichiers','Reconstituer la traçabilité','Bilan final'];
+
+  function updateProgress() {
+    root.querySelectorAll('.fmt-progress span').forEach((node,i) => {
+      node.className = '';
+      if (i + 1 < state.phase || state.phase === 5) node.className = 'fmt-done';
+      else if (i + 1 === state.phase) node.className = 'fmt-current';
+    });
+  }
+  function alertHtml() {
+    if (!state.feedback) return '';
+    const {kind,title,body} = state.feedback;
+    return `<div class="fmt-alert ${kind==='good'?'fmt-success':kind==='bad'?'fmt-danger':''}" role="status"><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`;
+  }
+  function helpButton() {return !state.solved && state.phase>0 && state.phase<5 ? '<button class="fmt-btn fmt-btn-subtle" type="button" data-act="hint">Afficher un indice</button>' : '';}
+  function nextButton() {return state.solved ? `<button class="fmt-btn" type="button" data-act="next">${state.phase===4?'Voir le bilan':'Mission suivante'} →</button>` : '';}
+  function renderWelcome() {
+    return `<p class="fmt-kicker">Jeu d’enquête documentaire · 15 à 20 minutes</p><h2>Un dossier partagé devenu inutilisable</h2>
+      <p class="fmt-lead">Vous venez de reprendre la coordination d’un projet d’éducation aux médias. Les ressources sont dispersées, les versions se contredisent et certaines sources sont introuvables. La réunion approche.</p>
+      <div class="fmt-grid" style="margin:20px 0">
+        <div class="fmt-card"><h3>01 · Retrouver</h3><p>Déterminer quel fichier correspond réellement au besoin.</p></div>
+        <div class="fmt-card"><h3>02 · Versionner</h3><p>Distinguer la dernière modification de la dernière version validée.</p></div>
+        <div class="fmt-card"><h3>03 · Classer</h3><p>Déplacer huit documents dans une structure cohérente.</p></div>
+        <div class="fmt-card"><h3>04 · Tracer</h3><p>Identifier les preuves nécessaires pour réutiliser des données.</p></div>
+      </div>
+      <p class="fmt-note">Pas de compte, pas de téléchargement, pas de données réelles. Les actions se déroulent dans une simulation. Le classement fonctionne à la souris, au tactile ou au clavier.</p>
+      <div class="fmt-actions"><button class="fmt-btn" data-act="start" type="button">Commencer l’enquête →</button><span class="fmt-mini">Travail individuel ou par binômes</span></div>`;
+  }
+  function fileRow(item) {
+    const selected=state.chosen===item.id;
+    return `<li class="fmt-file-item ${selected?'fmt-selected':''}"><span class="fmt-file-symbol" aria-hidden="true">${esc(item.type)}</span><span class="fmt-file-info"><span class="fmt-file-name">${esc(item.name)}</span><span class="fmt-file-meta">Modifié le ${esc(item.date)} · ${esc(item.where)}</span></span><button class="fmt-btn fmt-btn-secondary" type="button" data-act="inspect" data-id="${esc(item.id)}" aria-pressed="${selected}">Examiner</button></li>`;
+  }
+  function details(items) {
+    const selected=items.find((i)=>i.id===state.chosen);
+    if(!selected) return `<div class="fmt-detail"><h3>Fiche du document</h3><p class="fmt-lead">Sélectionnez « Examiner » pour afficher les métadonnées et les informations disponibles sur un fichier.</p></div>`;
+    state.observed++;
+    return `<div class="fmt-detail"><h3>${esc(selected.name)}</h3><dl><dt>Emplacement</dt><dd>${esc(selected.where)}</dd><dt>Modification</dt><dd>${esc(selected.date)}</dd><dt>Responsable</dt><dd>${esc(selected.owner)}</dd><dt>Statut</dt><dd><strong>${esc(selected.status)}</strong></dd><dt>Observation</dt><dd>${esc(selected.comment)}</dd></dl></div>`;
+  }
+  function commonMission(num,lead,items,correct,hint,explanation) {
+    let title= num === 1 ? 'Quel fichier correspond à la demande ?' : 'Quelle version peut-on utiliser ?';
+    return `<p class="fmt-kicker">Mission ${num} sur 4 · ${titles[num]}</p><h2>${title}</h2>
+      <p class="fmt-lead">${lead}</p>
+      <div class="fmt-two-cols">
+        <div class="fmt-panel"><div class="fmt-panel-header">Espace partagé · ${items.length} fichiers</div><ul class="fmt-file-list">${items.map(fileRow).join('')}</ul></div>
+        <div class="fmt-panel"><div class="fmt-panel-header">Métadonnées et historique</div><div class="fmt-panel-body">${details(items)}</div></div>
+      </div>
+      ${state.hint?`<div class="fmt-note"><strong>Indice :</strong> ${hint}</div>`:''}
+      ${alertHtml()}
+      <div class="fmt-actions">${state.solved?nextButton():`<button class="fmt-btn" type="button" data-act="verify-choice" data-correct="${correct}" ${state.chosen?'':'disabled'}>Valider ma sélection</button>`}${helpButton()}</div>
+      <p class="fmt-remark">${explanation}</p>`;
+  }
+  function mission1() {
+    return commonMission(1,
+      'La direction demande la fiche opérationnelle de l’atelier « Esprit critique », pour l’année 2026, <strong>approuvée par la coordination</strong>. Ouvrez les fiches documentaires avant de choisir. Un nom contenant « final » ne garantit rien.',
+      m1,'c','Cherchez une validation explicite, la bonne année et la fonction du document ; ne vous fiez pas seulement au nom.',
+      'La bonne ressource doit répondre au besoin, être la bonne édition et disposer d’un statut vérifiable.');
+  }
+  function mission2() {
+    return commonMission(2,
+      'Vous devez envoyer à l’équipe <strong>la procédure de partage officiellement applicable</strong>. Plusieurs fichiers portent « final », « copie » ou des dates récentes. Lequel dispose d’une validation traçable ?',
+      m2,'v2','Le fichier le plus récent n’est pas forcément le plus sûr. Cherchez la décision de validation et son responsable.',
+      'Une procédure validée n’est pas identique à un brouillon récent, même lorsque celui-ci porte la mention « FINAL ».');
+  }
+  function fileChip(f) {
+    const isActive=state.selectedFile===f.id;
+    return `<button class="fmt-source-card ${isActive?'fmt-selected':''}" type="button" draggable="true" data-act="select-move-file" data-id="${esc(f.id)}" aria-pressed="${isActive}" title="Cliquer pour sélectionner, puis choisir un dossier"><span class="fmt-file-symbol" aria-hidden="true">${esc(f.type)}</span><span class="fmt-file-info"><span class="fmt-file-name">${esc(f.name)}</span></span></button>`;
+  }
+  function mission3() {
+    const notPlaced=files.filter((f)=>!state.locations[f.id]);
+    const placed=files.length-notPlaced.length;
+    return `<p class="fmt-kicker">Mission 3 sur 4 · ${titles[3]}</p><h2>Rétablir une structure documentaire</h2>
+      <p class="fmt-lead">Classez les huit fichiers selon leur <strong>usage</strong>. Les documents sans auteur ou sans source doivent être mis de côté pour vérification, pas mélangés aux références fiables.</p>
+      <div class="fmt-note">Glissez un fichier vers un dossier <strong>ou</strong> sélectionnez-le puis cliquez sur le nom du dossier. Vous pouvez toujours déplacer un fichier déjà classé. <strong>${placed}/8</strong> fichiers classés.</div>
+      <div class="fmt-folder-layout">
+        <div class="fmt-panel"><div class="fmt-panel-header">À classer (${notPlaced.length})</div><div class="fmt-panel-body">${notPlaced.length?notPlaced.map(fileChip).join(''):'<p class="fmt-mini">Tous les fichiers ont été placés dans un dossier.</p>'}</div></div>
+        <div class="fmt-folder-grid">${folders.map(folder=>{
+          const assigned=files.filter(f=>state.locations[f.id]===folder.id);
+          return `<div class="fmt-folder" data-drop="${folder.id}"><button class="fmt-folder-head" type="button" data-act="place-folder" data-folder="${folder.id}" title="Placer le fichier sélectionné dans ce dossier">▸ ${esc(folder.name)}</button><p class="fmt-mini" style="margin:0 0 8px">${esc(folder.purpose)}</p><div class="fmt-folder-contents">${assigned.map(f=>`<button class="fmt-chip" draggable="true" data-act="select-move-file" data-id="${f.id}" type="button" title="Cliquer pour sélectionner et déplacer ce fichier">${esc(f.name)}</button>`).join('')||'<span class="fmt-empty">Déposez un fichier ici</span>'}</div></div>`;
+        }).join('')}</div>
+      </div>
+      ${state.hint?'<div class="fmt-note"><strong>Indice :</strong> Une ressource sans provenance claire n’est pas une référence fiable ; mieux vaut l’isoler pour vérification.</div>':''}
+      ${alertHtml()}
+      <div class="fmt-actions">${state.solved?nextButton():`<button type="button" class="fmt-btn" data-act="verify-folders" ${placed===files.length?'':'disabled'}>Vérifier le classement</button>`}${helpButton()}<button type="button" class="fmt-btn fmt-btn-subtle" data-act="reset-folders">Recommencer le classement</button></div>
+      <p class="fmt-remark">Le nom des dossiers n’est pas une norme universelle : la qualité d’un classement se juge à sa cohérence, son usage et sa capacité à être expliqué.</p>`;
+  }
+  function mission4() {
+    return `<p class="fmt-kicker">Mission 4 sur 4 · ${titles[4]}</p><h2>Une infographie sans provenance</h2>
+      <p class="fmt-lead">Un collègue souhaite réutiliser un graphique intitulé « Participation aux ateliers médias ». Quelle trace documentaire permet réellement de <strong>contrôler l’origine des données et le calcul</strong> avant publication ? Le dossier et l’organisme de cet exemple sont fictifs.</p>
+      <div class="fmt-card fmt-soft" style="margin:16px 0"><h3>Pièce à auditer</h3><p><strong>Graphique : « Participation aux ateliers médias, 2025 »</strong></p><p class="fmt-mini">Le fichier image ne contient ni note méthodologique, ni référence complète. Quatre « fiches de provenance » sont proposées.</p></div>
+      <div>${traces.map((t,i)=>`<button type="button" class="fmt-choice ${state.chosen===t.id?'fmt-selected':''}" data-act="choose-trace" data-id="${t.id}" aria-pressed="${state.chosen===t.id}"><span class="fmt-choice-key">${String.fromCharCode(65+i)}</span><span class="fmt-choice-content"><strong>${esc(t.title)}</strong>${esc(t.body)}</span></button>`).join('')}</div>
+      ${state.hint?'<div class="fmt-note"><strong>Indice :</strong> Un nom de fichier ou une capture d’écran ne suffit pas. Peut-on retrouver le document original, le tableau précis et la méthode de calcul ?</div>':''}
+      ${alertHtml()}
+      <div class="fmt-actions">${state.solved?nextButton():`<button type="button" class="fmt-btn" data-act="verify-trace" ${state.chosen?'':'disabled'}>Vérifier la provenance</button>`}${helpButton()}</div>
+      <p class="fmt-remark">Cette mission évalue la présence de métadonnées et de preuves vérifiables, non la véracité de chiffres inventés pour la simulation.</p>`;
+  }
+  function ending() {
+    let mins= Math.max(1,Math.round((Date.now()-state.start)/60000));
+    return `<p class="fmt-kicker">Quatre missions terminées</p><h2>Le dossier est de nouveau exploitable.</h2>
+      <p class="fmt-lead">Vous avez retrouvé une pièce validée, distingué une version approuvée d’un brouillon récent, réorganisé huit ressources et identifié une chaîne de provenance documentée.</p>
+      <div class="fmt-stats"><span><strong>4/4</strong> missions résolues</span><span><strong>${mins} min</strong> dans le jeu</span><span><strong>${state.attempts}</strong> validation(s) à reprendre</span></div>
+      <div class="fmt-card"><h3>À retenir pour la pratique professionnelle</h3><ol class="fmt-end-steps"><li>Un nom de fichier ou une date récente ne prouvent pas qu’il s’agit de la version approuvée.</li><li>Le classement doit être explicite, partagé et justifié par les usages.</li><li>Une source dont l’origine est introuvable doit être signalée comme telle.</li><li>Un graphique réutilisable nécessite la référence, les données d’origine et la méthode de calcul.</li></ol></div>
+      <div class="fmt-note"><strong>Débriefing collectif :</strong> Que manque-t-il à cette simulation pour répondre complètement à l’AA2 ? Notamment : le choix des environnements, les sauvegardes, l’accessibilité et l’exploitation effective de données structurées. Ces points seront travaillés ensuite.</div>
+      ${alertHtml()}
+      <div class="fmt-actions"><button type="button" class="fmt-btn" data-act="copy-summary">Copier mon bilan</button><button type="button" class="fmt-btn fmt-btn-secondary" data-act="restart">Rejouer</button></div>
+      <p class="fmt-disclaimer">Pas de classement entre participants, ni de données envoyées à l’établissement. Le bilan est destiné à la réflexion ; il ne constitue pas une preuve certificative.</p>`;
+  }
+  function render() {
+    updateProgress();
+    stage.innerHTML = state.phase===0?renderWelcome():state.phase===1?mission1():state.phase===2?mission2():state.phase===3?mission3():state.phase===4?mission4():ending();
+  }
+  function resetMission() {state.solved=false;state.chosen=null;state.feedback=null;state.hint=false;state.selectedFile=null;}
+  function transition(next) {state.phase=next;resetMission();render(); root.scrollIntoView({behavior:'auto',block:'nearest'});}
+  function feedback(kind,title,body) {state.feedback={kind,title,body};render();}
+  function placeFile(fileId,folderId) {
+    if(state.phase!==3||state.solved)return;
+    if(!files.some(f=>f.id===fileId)||!folders.some(f=>f.id===folderId))return;
+    state.locations[fileId]=folderId;state.selectedFile=null;state.feedback=null;render();
+  }
+  function verifyPick(correct) {
+    if(!state.chosen)return;
+    if(state.chosen===correct){
+      state.solved=true;
+      feedback('good',state.phase===1?'Document de référence retrouvé.':'Version applicable identifiée.',state.phase===1?
+        'Le document sélectionné est celui de l’année visée, avec validation explicite de la coordination et contenu répondant à la demande. Le « final_v4 » plus récent était encore un brouillon.':
+        'La v2 approuvée est la version à utiliser. Le fichier « FINAL_v3 » est plus récent mais n’a pas encore été validé.');
+    }else{
+      state.attempts++;
+      feedback('bad','Sélection à réexaminer.','Le fichier choisi ne réunit pas toutes les preuves nécessaires. Comparez son usage, son statut, l’auteur responsable et l’historique de validation.');
+    }
+  }
+  function verifyFolders() {
+    if(files.some(f=>!state.locations[f.id]))return;
+    let errors=files.filter(f=>state.locations[f.id]!==f.target);
+    if(!errors.length){state.solved=true;feedback('good','Classement cohérent.','Les ressources pédagogiques, pièces d’organisation, références vérifiables et documents à contrôler sont séparés selon leur finalité.');}
+    else {state.attempts++;feedback('bad',`${errors.length} classement(s) à revoir.`,
+      'Les fichiers à réexaminer sont : '+errors.map(f=>f.name).join(' ; ')+'. Reprenez les finalités des dossiers ; un fichier douteux ne doit pas rejoindre les références fiables.');}
+  }
+  function verifyTrace() {
+    if(!state.chosen)return;
+    if(state.chosen==='t2'){state.solved=true;feedback('good','Chaîne de provenance identifiée.','La référence donne l’organisme, le document, la date, la localisation exacte du tableau et l’accès à la méthode et aux données sources. Cela permet un contrôle réel.');}
+    else {state.attempts++;feedback('bad','Preuve insuffisante.','La trace retenue ne permet pas de contrôler à la fois la source, les données initiales et la méthode. Une impression de crédibilité n’est pas une référence reproductible.');}
+  }
+  root.addEventListener('click',(e)=>{
+    const btn=e.target.closest('button[data-act]');
+    if(!btn || !root.contains(btn))return;
+    const act=btn.dataset.act;
+    switch(act){
+      case 'start':state.start=Date.now();transition(1);break;
+      case 'restart':state.start=Date.now();state.attempts=0;state.locations={};state.observed=0;transition(0);break;
+      case 'next':if(state.solved)transition(state.phase+1);break;
+      case 'inspect':if(!state.solved){state.chosen=btn.dataset.id;state.feedback=null;render();}break;
+      case 'choose-trace':if(!state.solved){state.chosen=btn.dataset.id;state.feedback=null;render();}break;
+      case 'verify-choice':if(!state.solved)verifyPick(btn.dataset.correct);break;
+      case 'verify-folders':if(!state.solved)verifyFolders();break;
+      case 'verify-trace':if(!state.solved)verifyTrace();break;
+      case 'hint':state.hint=true;render();break;
+      case 'select-move-file':if(!state.solved){state.selectedFile=btn.dataset.id;state.feedback=null;render();}break;
+      case 'place-folder':if(state.selectedFile)placeFile(state.selectedFile,btn.dataset.folder);break;
+      case 'reset-folders':if(!state.solved){state.locations={};state.selectedFile=null;state.feedback=null;render();}break;
+      case 'copy-summary':{
+        const summary='Le dossier impossible — Bilan\n1. Valider la version, pas le nom du fichier.\n2. Organiser par usage et documenter les conventions.\n3. Isoler les ressources de provenance inconnue.\n4. Tracer une source et ses données avant réutilisation.\nQuestion : comment appliquer ces principes à mon propre espace documentaire ?';
+        if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(summary).then(()=>feedback('good','Bilan copié.','Vous pouvez le coller dans vos notes personnelles.')).catch(()=>feedback('bad','Copie indisponible.','Sélectionnez les quatre points du bilan à l’écran pour les copier.'));}
+        else {feedback('bad','Copie automatique indisponible.','Utilisez Ctrl+C / Copier après avoir sélectionné le texte du bilan affiché.');}
+        break;
+      }
+    }
+  });
+  root.addEventListener('dragstart',(e)=>{
+    const card=e.target.closest('[draggable="true"][data-id]');
+    if(!card || state.phase!==3 || state.solved)return;
+    e.dataTransfer.setData('text/plain',card.dataset.id);
+    e.dataTransfer.effectAllowed='move';
+  });
+  root.addEventListener('dragover',(e)=>{
+    const folder=e.target.closest('[data-drop]');
+    if(!folder || state.phase!==3 || state.solved)return;
+    e.preventDefault();e.dataTransfer.dropEffect='move';folder.classList.add('fmt-drop-active');
+  });
+  root.addEventListener('dragleave',(e)=>{
+    const folder=e.target.closest('[data-drop]');
+    if(folder&&!folder.contains(e.relatedTarget))folder.classList.remove('fmt-drop-active');
+  });
+  root.addEventListener('drop',(e)=>{
+    const folder=e.target.closest('[data-drop]');
+    if(!folder || state.phase!==3 || state.solved)return;
+    e.preventDefault();const id=e.dataTransfer.getData('text/plain');placeFile(id,folder.dataset.drop);
+  });
+  render();
+})();
+</script></body></html>
