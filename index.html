@@ -1,366 +1,167 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Le dossier impossible · FMTTN</title><style>/* FMTTN — Le Dossier impossible. Composant autonome et isolé. */
-#fmt-escape-game, #fmt-escape-game * {box-sizing:border-box}
-#fmt-escape-game {
- --fmt-ink:#152c42;--fmt-muted:#557083;--fmt-line:#d8e3ea;--fmt-bg:#f2f6fa;
- --fmt-surface:#fff;--fmt-teal:#176d72;--fmt-teal-light:#e7f6f3;
- --fmt-gold:#b16c13;--fmt-gold-light:#fff6e8;--fmt-danger:#a53b38;
- position:relative;display:block;width:100%;max-width:1200px;margin:24px auto;
- color:var(--fmt-ink);background:var(--fmt-bg);border:1px solid var(--fmt-line);
- border-radius:18px;overflow:hidden;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
- font-size:16px;line-height:1.5;text-align:left;box-shadow:0 12px 38px rgba(19,42,63,.08)
-}
-#fmt-escape-game button,#fmt-escape-game input,#fmt-escape-game select {font:inherit}
-#fmt-escape-game button {cursor:pointer}
-#fmt-escape-game button:disabled {cursor:not-allowed;opacity:.55}
-#fmt-escape-game :focus-visible {outline:3px solid #efb14a;outline-offset:2px}
-#fmt-escape-game .fmt-top {background:linear-gradient(120deg,#173851,#135a63);color:#fff;padding:24px 30px 22px}
-#fmt-escape-game .fmt-eyebrow {margin:0 0 6px;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:#bcdce1;font-weight:750}
-#fmt-escape-game .fmt-heading {font-size:clamp(24px,3vw,34px);font-weight:800;margin:0;line-height:1.15;color:#fff}
-#fmt-escape-game .fmt-subhead {font-size:14px;margin:9px 0 0;max-width:760px;color:#e0eff3}
-#fmt-escape-game .fmt-progress {display:flex;gap:7px;margin-top:20px}
-#fmt-escape-game .fmt-progress span {height:7px;flex:1;background:rgba(255,255,255,.25);border-radius:100px}
-#fmt-escape-game .fmt-progress span.fmt-done {background:#9fdfcd}
-#fmt-escape-game .fmt-progress span.fmt-current {background:#f2bc65}
-#fmt-escape-game .fmt-main {padding:27px 30px 30px;min-height:420px}
-#fmt-escape-game .fmt-kicker {font-size:12px;text-transform:uppercase;letter-spacing:.08em;font-weight:800;color:var(--fmt-teal);margin:0 0 8px}
-#fmt-escape-game h2 {color:var(--fmt-ink);font-size:clamp(22px,2.6vw,29px);margin:0 0 8px;line-height:1.22;font-weight:800}
-#fmt-escape-game h3 {color:var(--fmt-ink);font-size:17px;margin:0 0 8px;font-weight:750}
-#fmt-escape-game p {margin:0 0 12px}
-#fmt-escape-game .fmt-lead {color:var(--fmt-muted);font-size:15px;max-width:860px}
-#fmt-escape-game .fmt-card {background:#fff;border:1px solid var(--fmt-line);border-radius:13px;padding:20px}
-#fmt-escape-game .fmt-soft {background:#eff8f9;border-color:#c5e2e4}
-#fmt-escape-game .fmt-flex {display:flex;align-items:center;gap:12px}
-#fmt-escape-game .fmt-between {justify-content:space-between}
-#fmt-escape-game .fmt-wrap {flex-wrap:wrap}
-#fmt-escape-game .fmt-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-#fmt-escape-game .fmt-grid-3 {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-#fmt-escape-game .fmt-panel {background:#fff;border:1px solid var(--fmt-line);border-radius:12px;overflow:hidden}
-#fmt-escape-game .fmt-panel-header {padding:13px 16px;background:#e9f0f5;border-bottom:1px solid var(--fmt-line);font-size:14px;font-weight:800}
-#fmt-escape-game .fmt-panel-body {padding:16px}
-#fmt-escape-game .fmt-btn {display:inline-flex;align-items:center;justify-content:center;gap:8px;appearance:none;border:1px solid #176d72;background:#176d72;color:#fff;border-radius:10px;padding:11px 18px;font-weight:750;line-height:1.25;min-height:44px;text-decoration:none;white-space:normal}
-#fmt-escape-game .fmt-btn:hover:not(:disabled){background:#11565c}
-#fmt-escape-game .fmt-btn-secondary {background:#fff;color:var(--fmt-teal);border-color:#9ecbcd}
-#fmt-escape-game .fmt-btn-secondary:hover:not(:disabled){background:#e8f5f4}
-#fmt-escape-game .fmt-btn-subtle {background:transparent;color:var(--fmt-muted);border-color:var(--fmt-line)}
-#fmt-escape-game .fmt-btn-subtle:hover:not(:disabled){background:#eaf1f6}
-#fmt-escape-game .fmt-actions {display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
-#fmt-escape-game .fmt-mini {font-size:13px;color:var(--fmt-muted)}
-#fmt-escape-game .fmt-note {border-left:4px solid #62969a;background:#edf6f6;padding:11px 14px;border-radius:0 9px 9px 0;font-size:14px;margin-top:14px}
-#fmt-escape-game .fmt-remark {font-size:13px;color:var(--fmt-muted);padding-top:7px}
-#fmt-escape-game .fmt-pill {display:inline-block;border-radius:99px;background:#e9f3f4;color:#155b62;padding:3px 9px;font-size:12px;font-weight:750}
-#fmt-escape-game .fmt-file-list {list-style:none;margin:0;padding:0}
-#fmt-escape-game .fmt-file-item {display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid #eaf0f3}
-#fmt-escape-game .fmt-file-item:last-child {border-bottom:0}
-#fmt-escape-game .fmt-file-symbol {display:grid;place-items:center;width:38px;height:42px;border-radius:7px;color:#255875;background:#e8f0f6;font-weight:800;font-size:13px;flex-shrink:0}
-#fmt-escape-game .fmt-file-info {flex:1;min-width:0}
-#fmt-escape-game .fmt-file-name {font-weight:720;overflow-wrap:anywhere;font-size:14px}
-#fmt-escape-game .fmt-file-meta {font-size:12px;color:var(--fmt-muted);margin-top:2px}
-#fmt-escape-game .fmt-file-item.fmt-selected {background:#e7f5f5;box-shadow:inset 4px 0 #176d72}
-#fmt-escape-game .fmt-file-item .fmt-btn {font-size:13px;min-height:35px;padding:6px 10px}
-#fmt-escape-game .fmt-two-cols {display:grid;grid-template-columns:minmax(0,1.25fr) minmax(270px,.75fr);gap:15px;margin-top:17px;align-items:start}
-#fmt-escape-game .fmt-detail {font-size:14px;min-height:230px}
-#fmt-escape-game dl {display:grid;grid-template-columns:130px 1fr;gap:8px 12px;margin:12px 0}
-#fmt-escape-game dt {font-weight:760;color:var(--fmt-muted)}
-#fmt-escape-game dd {margin:0;overflow-wrap:anywhere}
-#fmt-escape-game .fmt-alert {background:#fff6e6;border:1px solid #e8c78f;border-radius:12px;padding:15px 18px;margin-top:16px;color:#584018}
-#fmt-escape-game .fmt-success {background:#e7f6ee;border-color:#b1d7bd;color:#1c563d}
-#fmt-escape-game .fmt-danger {background:#fff1f0;border-color:#e6b6b2;color:#813733}
-#fmt-escape-game .fmt-alert p:last-child {margin-bottom:0}
-#fmt-escape-game .fmt-alert strong {display:block;margin-bottom:5px}
-#fmt-escape-game .fmt-folder-layout {display:grid;grid-template-columns:minmax(245px,.88fr) minmax(0,1.12fr);gap:15px;margin-top:18px}
-#fmt-escape-game .fmt-source-card {display:flex;gap:10px;align-items:center;text-align:left;width:100%;border:1px solid #d4e0e8;border-radius:10px;background:#fff;padding:10px;margin:0 0 8px;color:var(--fmt-ink)}
-#fmt-escape-game .fmt-source-card:hover,#fmt-escape-game .fmt-source-card.fmt-selected {background:#e5f4f2;border-color:#71aeb0}
-#fmt-escape-game .fmt-source-card[draggable="true"] {cursor:grab}
-#fmt-escape-game .fmt-source-card[draggable="true"]:active {cursor:grabbing}
-#fmt-escape-game .fmt-source-card .fmt-file-name {font-size:13px}
-#fmt-escape-game .fmt-folder-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-#fmt-escape-game .fmt-folder {border:2px dashed #b8cbd7;border-radius:10px;min-height:140px;padding:12px;background:#f9fcfd}
-#fmt-escape-game .fmt-folder.fmt-drop-active {border-color:#207d81;background:#e5f5f3}
-#fmt-escape-game .fmt-folder-head {display:block;color:#245b72;font-weight:800;font-size:13px;margin-bottom:8px;padding:0;border:0;background:none;text-align:left;width:100%}
-#fmt-escape-game .fmt-folder-contents {display:flex;flex-direction:column;gap:6px}
-#fmt-escape-game .fmt-chip {border:1px solid #d2e0e8;background:#fff;color:#28445c;padding:6px 8px;border-radius:7px;font-size:12px;text-align:left;overflow-wrap:anywhere}
-#fmt-escape-game .fmt-chip:hover {background:#e8f3f3}
-#fmt-escape-game .fmt-empty {font-size:12px;color:#7c909e}
-#fmt-escape-game .fmt-choice {display:flex;align-items:flex-start;gap:13px;border:1px solid #d9e4ea;background:#fff;border-radius:12px;padding:14px 16px;margin:0 0 10px;width:100%;text-align:left;color:var(--fmt-ink)}
-#fmt-escape-game .fmt-choice:hover,#fmt-escape-game .fmt-choice.fmt-selected {background:#eaf6f3;border-color:#6caaa8}
-#fmt-escape-game .fmt-choice-key {display:grid;place-items:center;width:31px;height:31px;border-radius:8px;background:#e6eef4;color:#41617a;flex-shrink:0;font-weight:850}
-#fmt-escape-game .fmt-choice-content {font-size:14px}
-#fmt-escape-game .fmt-choice-content strong {display:block;margin-bottom:3px}
-#fmt-escape-game .fmt-end-steps {padding:0;list-style:none;margin:14px 0;display:grid;gap:9px}
-#fmt-escape-game .fmt-end-steps li {padding:12px 14px;background:#f6f9fb;border:1px solid #dfebf0;border-radius:9px;font-size:14px}
-#fmt-escape-game .fmt-footer {padding:13px 28px;background:#e7eef3;color:#5b7184;font-size:12px;border-top:1px solid var(--fmt-line)}
-#fmt-escape-game .fmt-sr {border:0;clip:rect(0,0,0,0);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;white-space:nowrap}
-#fmt-escape-game .fmt-stats {display:flex;gap:18px;color:var(--fmt-muted);font-size:13px;flex-wrap:wrap;margin:16px 0}
-#fmt-escape-game .fmt-disclaimer {margin-top:15px;font-size:12px;color:var(--fmt-muted)}
-@media (max-width:760px) {
- #fmt-escape-game .fmt-top{padding:22px 18px}
- #fmt-escape-game .fmt-main{padding:22px 16px}
- #fmt-escape-game .fmt-two-cols,#fmt-escape-game .fmt-folder-layout,#fmt-escape-game .fmt-grid,#fmt-escape-game .fmt-grid-3{grid-template-columns:1fr}
- #fmt-escape-game .fmt-folder-grid{grid-template-columns:1fr}
- #fmt-escape-game .fmt-file-item{padding:10px;flex-wrap:wrap}
- #fmt-escape-game .fmt-file-item .fmt-btn{margin-left:50px}
- #fmt-escape-game dl{grid-template-columns:104px 1fr}
-}
-@media (prefers-reduced-motion:no-preference) {#fmt-escape-game button{transition:background .14s,border-color .14s}}
-@media print {
- #fmt-escape-game .fmt-btn,#fmt-escape-game .fmt-actions {display:none!important}
- #fmt-escape-game {box-shadow:none;border:0;background:#fff}
-}
-</style></head><body style="margin:0;padding:18px;background:#e5edf3"><div id="fmt-escape-game" role="region" aria-label="Jeu Le dossier impossible">
-  <div class="fmt-top">
-    <p class="fmt-eyebrow">UE 1 · Informations et données · AA2</p>
-    <h1 class="fmt-heading">Le dossier impossible</h1>
-    <p class="fmt-subhead">Un dossier désorganisé. Quatre missions pour le rendre fiable, accessible et réutilisable.</p>
-    <div class="fmt-progress" aria-label="Progression du jeu"><span></span><span></span><span></span><span></span></div>
-  </div>
-  <div class="fmt-main" id="fmt-game-stage" aria-live="polite">
-    <p>Chargement du jeu…</p>
-    <p class="fmt-mini">Si ce message reste affiché après quelques secondes, le JavaScript du jeu est bloqué ou n’a pas été chargé par le site.</p>
-  </div>
-  <div class="fmt-footer">Simulation pédagogique. Documents et personnes fictifs. Aucune donnée personnelle collectée ni transmise.</div>
-  <noscript><p>JavaScript est désactivé dans ton navigateur. Il est nécessaire pour jouer.</p></noscript>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Le dossier impossible — Mission documentaire | UE 1</title>
+<style>
+:root{--navy:#172f42;--navy2:#223d53;--teal:#176d70;--teal2:#d7efec;--sand:#fbf3e4;--bg:#ecf2f5;--line:#cddde5;--ink:#172d40;--muted:#536b7a;--white:#fff;--red:#9f4142;--green:#176943;--gold:#a66418;--radius:14px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,'Segoe UI',Arial,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.55}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #edbc63;outline-offset:2px}
+a{color:var(--teal)}.app{max-width:1160px;margin:22px auto 48px;background:#fff;min-height:90vh;border-radius:20px;overflow:hidden;box-shadow:0 12px 50px #1129381f;border:1px solid #cbdbe4}.mast{background:linear-gradient(115deg,#112d42,#175b67);color:#fff;padding:24px clamp(20px,4vw,46px)}.kicker{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;font-weight:850;color:#bde4e7;margin:0 0 7px}.mast h1{font-size:clamp(1.65rem,3vw,2.5rem);line-height:1.15;margin:0;font-weight:820;letter-spacing:-.02em}.mast p{margin:9px 0 0;color:#e0f1f1;max-width:850px}.mastrow{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap}.clock{border:1px solid #ffffff70;border-radius:99px;padding:5px 12px;color:#fff;font-size:.82rem;background:#ffffff0e}.progress{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin-top:22px}.progress span{height:8px;border-radius:9px;background:#ffffff40}.progress span.done{background:#80d8c4}.progress span.current{background:#f9ba5c}.main{padding:clamp(19px,4vw,40px)}.eyebrow{margin:0 0 7px;color:var(--teal);font-size:.76rem;letter-spacing:.07em;text-transform:uppercase;font-weight:850}h2{font-size:clamp(1.35rem,2.4vw,1.95rem);line-height:1.2;margin:0 0 12px}h3{font-size:1.12rem;margin:0 0 8px}p{margin:0 0 12px}.lead{color:var(--muted);max-width:980px}.small{font-size:.84rem;color:var(--muted)}.tiny{font-size:.75rem;color:var(--muted)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:20px 0}.card{border:1px solid var(--line);border-radius:var(--radius);padding:18px;background:white}.soft{background:#f4faf9;border-color:#c7e5e2}.cream{background:var(--sand);border-color:#ead9b8}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--radius);margin:17px 0;overflow:hidden}.panel-head{background:#edf4f7;padding:11px 17px;border-bottom:1px solid var(--line);font-weight:800}.panel-body{padding:16px}.info{border-left:5px solid var(--teal);padding:13px 15px;background:#e8f6f3;border-radius:0 11px 11px 0;margin:14px 0;color:#153d43}.warn{border-left:5px solid var(--gold);padding:13px 15px;background:#fff5e7;border-radius:0 11px 11px 0;margin:14px 0;color:#574119}.error{border-left:5px solid var(--red);padding:13px 15px;background:#fff1f0;border-radius:0 11px 11px 0;margin:14px 0;color:#633034}.success{border-left:5px solid var(--green);padding:13px 15px;background:#eaf7ee;border-radius:0 11px 11px 0;margin:14px 0;color:#184a31}.btn{min-height:44px;border:1px solid var(--teal);border-radius:10px;padding:10px 17px;background:var(--teal);color:white;font-weight:780}.btn:hover:not(:disabled){background:#0d5558}.btn.ghost{background:#fff;color:#146267;border-color:#a2c8c8}.btn.ghost:hover:not(:disabled){background:#e8f6f3}.btn.neutral{border-color:#c9d7df;background:#eff5f8;color:#375568}.btn.neutral:hover:not(:disabled){background:#e4eef3}.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:22px 0 3px}.pill{display:inline-block;border-radius:99px;background:#e5f2f4;color:#1e5c64;padding:3px 10px;font-weight:800;font-size:.76rem}.pills{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}.rules{margin:8px 0 0;padding-left:23px}.rules li{margin:8px 0}.brief{font-weight:750;color:#245366}.listcard{background:#f8fafb;border:1px solid #e1e9ed;border-radius:11px;padding:13px 16px;margin:12px 0}.listcard strong{display:block;margin-bottom:5px}.req{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,.58fr);gap:15px;align-items:center;padding:15px 17px;border-top:1px solid #e3ebef}.req:first-child{border-top:0}.req select{width:100%;max-width:100%;padding:9px;border-radius:8px;border:1px solid #9bb1bf;background:#fff;color:var(--ink)}.question{font-weight:780}.note{font-size:.83rem;color:var(--muted)}.tablewrap{overflow-x:auto;margin:15px 0;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;min-width:720px;width:100%;font-size:.85rem;text-align:left}th{background:#eaf2f6;color:#315467;font-weight:800}th,td{border-bottom:1px solid #e4ecef;padding:10px 12px;vertical-align:top}tr:last-child td{border-bottom:0}tbody tr:nth-child(2n){background:#fbfdfe}code{background:#e9f1f5;color:#263f50;padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}.optblock{padding:16px;border:1px solid var(--line);border-radius:12px;margin:13px 0;background:#fcfdfd}.optblock h3{margin:0 0 7px;font-size:1rem}.optblock .desc{font-size:.89rem;color:#4e6572;margin-bottom:11px}.choice{display:flex;align-items:flex-start;gap:9px;margin:8px 0;padding:9px 11px;border:1px solid #e0e9ee;border-radius:8px;background:#fff;cursor:pointer}.choice:hover{border-color:#75b1b0;background:#f3faf9}.choice input{margin-top:5px;flex-shrink:0;accent-color:var(--teal)}.choice span{font-size:.89rem;line-height:1.4}.choice.checked{border-color:#579a97;background:#ecf8f4}.feedback{margin-top:17px}.feedback ul{margin:8px 0 0;padding-left:22px}.feedback li{margin:5px 0}.checkpoint{margin-top:17px;padding:15px 17px;border:1px dashed #80acac;border-radius:11px;background:#f1f8f7}.checkpoint label{font-weight:750;display:block;margin:0 0 8px}.checkpoint textarea{width:100%;min-height:78px;resize:vertical;border-radius:8px;border:1px solid #aabdc7;padding:9px;background:#fff;color:var(--ink)}.footer{padding:15px 28px;background:#edf4f7;color:var(--muted);font-size:.8rem;border-top:1px solid var(--line)}.topstats{display:flex;gap:14px;flex-wrap:wrap;margin:12px 0}.stat{border:1px solid var(--line);border-radius:12px;padding:14px 16px;background:#fff;flex:1;min-width:165px}.stat strong{font-size:1.4rem;display:block;color:#1b5160}.report{background:#f7fafb;border:1px solid #d6e3e8;border-radius:13px;padding:18px;margin:17px 0}.report p{margin:7px 0}.report ol{margin:8px 0;padding-left:22px}.muted{color:var(--muted)}.tag{background:#eef3f6;color:#4f697a;padding:2px 7px;font-size:.78rem;border-radius:5px;white-space:nowrap}.scheme{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}.scheme>div{border:1px solid #cddde5;border-radius:11px;background:#fff;padding:13px;text-align:center}.scheme b{display:block;color:#14676d;font-size:1.1rem}.hint{border-radius:12px;padding:13px 15px;border:1px solid #e9d3a8;background:#fff8eb;margin:12px 0;font-size:.91rem}.sr{position:absolute!important;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden;white-space:nowrap}.footrow{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.footer button{border:0;background:transparent;color:var(--teal);text-decoration:underline;font-size:.8rem}.hidden{display:none!important}
+@media(max-width:760px){.app{margin:0;border-radius:0;border:0}.main{padding:18px}.cards,.scheme{grid-template-columns:1fr}.req{grid-template-columns:1fr;gap:8px}.mast{padding:19px}.footer{padding:14px 18px}}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media print{body{background:white}.app{box-shadow:none;border:0}.mast{background:white;color:black}.mast *{color:black!important}.actions,.footer button{display:none}.main{padding:10px}}
+</style>
+</head>
+<body>
+<div class="app" id="game">
+ <header class="mast">
+  <div class="mastrow"><div><p class="kicker">FMTTN · UE 1 · Informations et données · AA2</p><h1>Le dossier impossible</h1><p>Audit documentaire interactif · Simulation d'établissement scolaire · Version approfondie</p></div><div class="clock" id="clock" aria-label="Temps écoulé">00:00</div></div>
+  <div class="progress" id="progress" aria-label="Progression des six missions"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+ </header>
+ <main class="main" id="stage" aria-live="polite"><p>Chargement du jeu…</p></main>
+ <footer class="footer"><div class="footrow"><span>Scénario, fichiers et chiffres entièrement fictifs · Aucun compte · Aucune réponse de jeu envoyée à un serveur</span><span>Conçu pour la séance du 18 novembre · Travail formatif</span></div></footer>
 </div>
-<script>/*
- * Le dossier impossible — UE 1 / AA2 (FMTTN)
- * Javascript natif, sans dépendance, sans serveur, sans collecte de données.
- * Tous les noms et dossiers du scénario sont fictifs.
- */
-(function () {
-  'use strict';
-  const root = document.getElementById('fmt-escape-game');
-  if (!root || root.dataset.fmtReady === '1') return;
-  root.dataset.fmtReady = '1';
-  const stage = root.querySelector('#fmt-game-stage');
-  if (!stage) return;
-
-  const m1 = [
-    {id:'a',name:'Atelier_EMI_final_v4.docx',type:'DOCX',date:'12/11/2026',where:'Travail en cours',status:'Brouillon',owner:'Équipe projet',comment:'Version récente contenant des corrections non relues.'},
-    {id:'b',name:'PRES_Atelier_EMI_ok.pdf',type:'PDF',date:'09/11/2026',where:'Présentations',status:'Validé',owner:'Coordination',comment:'Support de présentation, pas la fiche opérationnelle demandée.'},
-    {id:'c',name:'fiche_atelier_medias_2026_V2.pdf',type:'PDF',date:'08/11/2026',where:'Références validées',status:'Approuvé le 10/11/2026',owner:'Coordination',comment:'Fiche de référence : objectifs, déroulé, matériel et responsabilités.'},
-    {id:'d',name:'fiche_atelier_EMI_2025.pdf',type:'PDF',date:'03/10/2025',where:'Archives',status:'Validé en 2025',owner:'Coordination',comment:'Décrit la version de l’année précédente.'},
-    {id:'e',name:'notes_reunion_EMI.docx',type:'DOCX',date:'11/11/2026',where:'Réunions',status:'Notes internes',owner:'Équipe projet',comment:'Pistes discutées mais non approuvées.'},
-    {id:'f',name:'fiche_atelier_medias_copie.pdf',type:'PDF',date:'13/11/2026',where:'Téléchargements',status:'Statut inconnu',owner:'Non renseigné',comment:'Copie sans auteur, validation ni traçabilité.'}
-  ];
-  const m2 = [
-    {id:'v1',name:'Procedure_partage_v1.docx',type:'DOCX',date:'04/11/2026',where:'Archives',status:'Obsolète',owner:'Service numérique',comment:'Remplacée le 10 novembre.'},
-    {id:'v2',name:'Procedure_partage_v2-validee.pdf',type:'PDF',date:'10/11/2026',where:'Références validées',status:'Approuvée le 10/11/2026',owner:'Direction',comment:'Texte relu et approuvé. Référence actuellement applicable.'},
-    {id:'v3',name:'Procedure_partage_FINAL_v3.docx',type:'DOCX',date:'15/11/2026',where:'Brouillons',status:'Projet non approuvé',owner:'Groupe de travail',comment:'Intègre de nouvelles propositions qui n’ont pas été validées.'},
-    {id:'v4',name:'Procedure_partage_v2-copie.pdf',type:'PDF',date:'16/11/2026',where:'Téléchargements',status:'Validation non traçable',owner:'Non renseigné',comment:'Copie exportée, sans référence ni historique d’approbation.'}
-  ];
-  const folders = [
-    {id:'pedago',name:'01_Ressources_pedagogiques',purpose:'Documents utilisables dans une activité d’enseignement'},
-    {id:'projet',name:'02_Organisation_et_suivi',purpose:'Planification, réunions et coordination'},
-    {id:'refs',name:'03_Sources_et_references',purpose:'Sources identifiées et références documentaires'},
-    {id:'quarantaine',name:'04_A_verifier',purpose:'Documents dont la provenance ou les droits sont insuffisants'}
-  ];
-  const files = [
-    {id:'f1',name:'Fiche_lecture_laterale.pdf',type:'PDF',target:'pedago'},
-    {id:'f2',name:'Quiz_factchecking.html',type:'HTML',target:'pedago'},
-    {id:'f3',name:'Planning_des_ateliers.ods',type:'ODS',target:'projet'},
-    {id:'f4',name:'CR_coordination_2026-11-10.pdf',type:'PDF',target:'projet'},
-    {id:'f5',name:'Rapport_institutionnel_source.pdf',type:'PDF',target:'refs'},
-    {id:'f6',name:'Index_bibliographique.csv',type:'CSV',target:'refs'},
-    {id:'f7',name:'Photo_sans_auteur_ni_licence.png',type:'PNG',target:'quarantaine'},
-    {id:'f8',name:'Statistiques_sans_source.xlsx',type:'XLSX',target:'quarantaine'}
-  ];
-  const traces = [
-    {id:'t1',title:'Le lien du canal de discussion',body:'« Vu dans une conversation du 11 novembre ». Une image et un commentaire sont joints, sans auteur, méthode ni source du chiffre.'},
-    {id:'t2',title:'Une référence complète et contrôlable',body:'Cellule du projet pédagogique (fictive), « Bilan des ateliers médias 2025 », publié le 16 janvier 2026, tableau 3, page 8. Jeu de données source, méthode de calcul et version du document identifiés.'},
-    {id:'t3',title:'La réponse d’un assistant IA',body:'L’assistant confirme les chiffres, sans lien vers un document original, sans auteur identifié et sans calcul vérifiable.'},
-    {id:'t4',title:'Une capture d’écran du graphique',body:'La capture porte le nom « stats_final.png » ; sa date de création est connue, mais le jeu de données initial est introuvable.'}
-  ];
-
-  const esc = (s) => String(s).replace(/[&<>"']/g, (ch) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
-  const state = {phase:0,solved:false,chosen:null,feedback:null,hint:false,attempts:0,start:0,locations:{},selectedFile:null,observed:0};
-  const titles = ['','Retrouver le document fiable','Choisir la bonne version','Reclasser les fichiers','Reconstituer la traçabilité','Bilan final'];
-
-  function updateProgress() {
-    root.querySelectorAll('.fmt-progress span').forEach((node,i) => {
-      node.className = '';
-      if (i + 1 < state.phase || state.phase === 5) node.className = 'fmt-done';
-      else if (i + 1 === state.phase) node.className = 'fmt-current';
-    });
-  }
-  function alertHtml() {
-    if (!state.feedback) return '';
-    const {kind,title,body} = state.feedback;
-    return `<div class="fmt-alert ${kind==='good'?'fmt-success':kind==='bad'?'fmt-danger':''}" role="status"><strong>${esc(title)}</strong><p>${esc(body)}</p></div>`;
-  }
-  function helpButton() {return !state.solved && state.phase>0 && state.phase<5 ? '<button class="fmt-btn fmt-btn-subtle" type="button" data-act="hint">Afficher un indice</button>' : '';}
-  function nextButton() {return state.solved ? `<button class="fmt-btn" type="button" data-act="next">${state.phase===4?'Voir le bilan':'Mission suivante'} →</button>` : '';}
-  function renderWelcome() {
-    return `<p class="fmt-kicker">Jeu d’enquête documentaire · 15 à 20 minutes</p><h2>Un dossier partagé devenu inutilisable</h2>
-      <p class="fmt-lead">Vous venez de reprendre la coordination d’un projet d’éducation aux médias. Les ressources sont dispersées, les versions se contredisent et certaines sources sont introuvables. La réunion approche.</p>
-      <div class="fmt-grid" style="margin:20px 0">
-        <div class="fmt-card"><h3>01 · Retrouver</h3><p>Déterminer quel fichier correspond réellement au besoin.</p></div>
-        <div class="fmt-card"><h3>02 · Versionner</h3><p>Distinguer la dernière modification de la dernière version validée.</p></div>
-        <div class="fmt-card"><h3>03 · Classer</h3><p>Déplacer huit documents dans une structure cohérente.</p></div>
-        <div class="fmt-card"><h3>04 · Tracer</h3><p>Identifier les preuves nécessaires pour réutiliser des données.</p></div>
-      </div>
-      <p class="fmt-note">Pas de compte, pas de téléchargement, pas de données réelles. Les actions se déroulent dans une simulation. Le classement fonctionne à la souris, au tactile ou au clavier.</p>
-      <div class="fmt-actions"><button class="fmt-btn" data-act="start" type="button">Commencer l’enquête →</button><span class="fmt-mini">Travail individuel ou par binômes</span></div>`;
-  }
-  function fileRow(item) {
-    const selected=state.chosen===item.id;
-    return `<li class="fmt-file-item ${selected?'fmt-selected':''}"><span class="fmt-file-symbol" aria-hidden="true">${esc(item.type)}</span><span class="fmt-file-info"><span class="fmt-file-name">${esc(item.name)}</span><span class="fmt-file-meta">Modifié le ${esc(item.date)} · ${esc(item.where)}</span></span><button class="fmt-btn fmt-btn-secondary" type="button" data-act="inspect" data-id="${esc(item.id)}" aria-pressed="${selected}">Examiner</button></li>`;
-  }
-  function details(items) {
-    const selected=items.find((i)=>i.id===state.chosen);
-    if(!selected) return `<div class="fmt-detail"><h3>Fiche du document</h3><p class="fmt-lead">Sélectionnez « Examiner » pour afficher les métadonnées et les informations disponibles sur un fichier.</p></div>`;
-    state.observed++;
-    return `<div class="fmt-detail"><h3>${esc(selected.name)}</h3><dl><dt>Emplacement</dt><dd>${esc(selected.where)}</dd><dt>Modification</dt><dd>${esc(selected.date)}</dd><dt>Responsable</dt><dd>${esc(selected.owner)}</dd><dt>Statut</dt><dd><strong>${esc(selected.status)}</strong></dd><dt>Observation</dt><dd>${esc(selected.comment)}</dd></dl></div>`;
-  }
-  function commonMission(num,lead,items,correct,hint,explanation) {
-    let title= num === 1 ? 'Quel fichier correspond à la demande ?' : 'Quelle version peut-on utiliser ?';
-    return `<p class="fmt-kicker">Mission ${num} sur 4 · ${titles[num]}</p><h2>${title}</h2>
-      <p class="fmt-lead">${lead}</p>
-      <div class="fmt-two-cols">
-        <div class="fmt-panel"><div class="fmt-panel-header">Espace partagé · ${items.length} fichiers</div><ul class="fmt-file-list">${items.map(fileRow).join('')}</ul></div>
-        <div class="fmt-panel"><div class="fmt-panel-header">Métadonnées et historique</div><div class="fmt-panel-body">${details(items)}</div></div>
-      </div>
-      ${state.hint?`<div class="fmt-note"><strong>Indice :</strong> ${hint}</div>`:''}
-      ${alertHtml()}
-      <div class="fmt-actions">${state.solved?nextButton():`<button class="fmt-btn" type="button" data-act="verify-choice" data-correct="${correct}" ${state.chosen?'':'disabled'}>Valider ma sélection</button>`}${helpButton()}</div>
-      <p class="fmt-remark">${explanation}</p>`;
-  }
-  function mission1() {
-    return commonMission(1,
-      'La direction demande la fiche opérationnelle de l’atelier « Esprit critique », pour l’année 2026, <strong>approuvée par la coordination</strong>. Ouvrez les fiches documentaires avant de choisir. Un nom contenant « final » ne garantit rien.',
-      m1,'c','Cherchez une validation explicite, la bonne année et la fonction du document ; ne vous fiez pas seulement au nom.',
-      'La bonne ressource doit répondre au besoin, être la bonne édition et disposer d’un statut vérifiable.');
-  }
-  function mission2() {
-    return commonMission(2,
-      'Vous devez envoyer à l’équipe <strong>la procédure de partage officiellement applicable</strong>. Plusieurs fichiers portent « final », « copie » ou des dates récentes. Lequel dispose d’une validation traçable ?',
-      m2,'v2','Le fichier le plus récent n’est pas forcément le plus sûr. Cherchez la décision de validation et son responsable.',
-      'Une procédure validée n’est pas identique à un brouillon récent, même lorsque celui-ci porte la mention « FINAL ».');
-  }
-  function fileChip(f) {
-    const isActive=state.selectedFile===f.id;
-    return `<button class="fmt-source-card ${isActive?'fmt-selected':''}" type="button" draggable="true" data-act="select-move-file" data-id="${esc(f.id)}" aria-pressed="${isActive}" title="Cliquer pour sélectionner, puis choisir un dossier"><span class="fmt-file-symbol" aria-hidden="true">${esc(f.type)}</span><span class="fmt-file-info"><span class="fmt-file-name">${esc(f.name)}</span></span></button>`;
-  }
-  function mission3() {
-    const notPlaced=files.filter((f)=>!state.locations[f.id]);
-    const placed=files.length-notPlaced.length;
-    return `<p class="fmt-kicker">Mission 3 sur 4 · ${titles[3]}</p><h2>Rétablir une structure documentaire</h2>
-      <p class="fmt-lead">Classez les huit fichiers selon leur <strong>usage</strong>. Les documents sans auteur ou sans source doivent être mis de côté pour vérification, pas mélangés aux références fiables.</p>
-      <div class="fmt-note">Glissez un fichier vers un dossier <strong>ou</strong> sélectionnez-le puis cliquez sur le nom du dossier. Vous pouvez toujours déplacer un fichier déjà classé. <strong>${placed}/8</strong> fichiers classés.</div>
-      <div class="fmt-folder-layout">
-        <div class="fmt-panel"><div class="fmt-panel-header">À classer (${notPlaced.length})</div><div class="fmt-panel-body">${notPlaced.length?notPlaced.map(fileChip).join(''):'<p class="fmt-mini">Tous les fichiers ont été placés dans un dossier.</p>'}</div></div>
-        <div class="fmt-folder-grid">${folders.map(folder=>{
-          const assigned=files.filter(f=>state.locations[f.id]===folder.id);
-          return `<div class="fmt-folder" data-drop="${folder.id}"><button class="fmt-folder-head" type="button" data-act="place-folder" data-folder="${folder.id}" title="Placer le fichier sélectionné dans ce dossier">▸ ${esc(folder.name)}</button><p class="fmt-mini" style="margin:0 0 8px">${esc(folder.purpose)}</p><div class="fmt-folder-contents">${assigned.map(f=>`<button class="fmt-chip" draggable="true" data-act="select-move-file" data-id="${f.id}" type="button" title="Cliquer pour sélectionner et déplacer ce fichier">${esc(f.name)}</button>`).join('')||'<span class="fmt-empty">Déposez un fichier ici</span>'}</div></div>`;
-        }).join('')}</div>
-      </div>
-      ${state.hint?'<div class="fmt-note"><strong>Indice :</strong> Une ressource sans provenance claire n’est pas une référence fiable ; mieux vaut l’isoler pour vérification.</div>':''}
-      ${alertHtml()}
-      <div class="fmt-actions">${state.solved?nextButton():`<button type="button" class="fmt-btn" data-act="verify-folders" ${placed===files.length?'':'disabled'}>Vérifier le classement</button>`}${helpButton()}<button type="button" class="fmt-btn fmt-btn-subtle" data-act="reset-folders">Recommencer le classement</button></div>
-      <p class="fmt-remark">Le nom des dossiers n’est pas une norme universelle : la qualité d’un classement se juge à sa cohérence, son usage et sa capacité à être expliqué.</p>`;
-  }
-  function mission4() {
-    return `<p class="fmt-kicker">Mission 4 sur 4 · ${titles[4]}</p><h2>Une infographie sans provenance</h2>
-      <p class="fmt-lead">Un collègue souhaite réutiliser un graphique intitulé « Participation aux ateliers médias ». Quelle trace documentaire permet réellement de <strong>contrôler l’origine des données et le calcul</strong> avant publication ? Le dossier et l’organisme de cet exemple sont fictifs.</p>
-      <div class="fmt-card fmt-soft" style="margin:16px 0"><h3>Pièce à auditer</h3><p><strong>Graphique : « Participation aux ateliers médias, 2025 »</strong></p><p class="fmt-mini">Le fichier image ne contient ni note méthodologique, ni référence complète. Quatre « fiches de provenance » sont proposées.</p></div>
-      <div>${traces.map((t,i)=>`<button type="button" class="fmt-choice ${state.chosen===t.id?'fmt-selected':''}" data-act="choose-trace" data-id="${t.id}" aria-pressed="${state.chosen===t.id}"><span class="fmt-choice-key">${String.fromCharCode(65+i)}</span><span class="fmt-choice-content"><strong>${esc(t.title)}</strong>${esc(t.body)}</span></button>`).join('')}</div>
-      ${state.hint?'<div class="fmt-note"><strong>Indice :</strong> Un nom de fichier ou une capture d’écran ne suffit pas. Peut-on retrouver le document original, le tableau précis et la méthode de calcul ?</div>':''}
-      ${alertHtml()}
-      <div class="fmt-actions">${state.solved?nextButton():`<button type="button" class="fmt-btn" data-act="verify-trace" ${state.chosen?'':'disabled'}>Vérifier la provenance</button>`}${helpButton()}</div>
-      <p class="fmt-remark">Cette mission évalue la présence de métadonnées et de preuves vérifiables, non la véracité de chiffres inventés pour la simulation.</p>`;
-  }
-  function ending() {
-    let mins= Math.max(1,Math.round((Date.now()-state.start)/60000));
-    return `<p class="fmt-kicker">Quatre missions terminées</p><h2>Le dossier est de nouveau exploitable.</h2>
-      <p class="fmt-lead">Vous avez retrouvé une pièce validée, distingué une version approuvée d’un brouillon récent, réorganisé huit ressources et identifié une chaîne de provenance documentée.</p>
-      <div class="fmt-stats"><span><strong>4/4</strong> missions résolues</span><span><strong>${mins} min</strong> dans le jeu</span><span><strong>${state.attempts}</strong> validation(s) à reprendre</span></div>
-      <div class="fmt-card"><h3>À retenir pour la pratique professionnelle</h3><ol class="fmt-end-steps"><li>Un nom de fichier ou une date récente ne prouvent pas qu’il s’agit de la version approuvée.</li><li>Le classement doit être explicite, partagé et justifié par les usages.</li><li>Une source dont l’origine est introuvable doit être signalée comme telle.</li><li>Un graphique réutilisable nécessite la référence, les données d’origine et la méthode de calcul.</li></ol></div>
-      <div class="fmt-note"><strong>Débriefing collectif :</strong> Que manque-t-il à cette simulation pour répondre complètement à l’AA2 ? Notamment : le choix des environnements, les sauvegardes, l’accessibilité et l’exploitation effective de données structurées. Ces points seront travaillés ensuite.</div>
-      ${alertHtml()}
-      <div class="fmt-actions"><button type="button" class="fmt-btn" data-act="copy-summary">Copier mon bilan</button><button type="button" class="fmt-btn fmt-btn-secondary" data-act="restart">Rejouer</button></div>
-      <p class="fmt-disclaimer">Pas de classement entre participants, ni de données envoyées à l’établissement. Le bilan est destiné à la réflexion ; il ne constitue pas une preuve certificative.</p>`;
-  }
-  function render() {
-    updateProgress();
-    stage.innerHTML = state.phase===0?renderWelcome():state.phase===1?mission1():state.phase===2?mission2():state.phase===3?mission3():state.phase===4?mission4():ending();
-  }
-  function resetMission() {state.solved=false;state.chosen=null;state.feedback=null;state.hint=false;state.selectedFile=null;}
-  function transition(next) {state.phase=next;resetMission();render(); root.scrollIntoView({behavior:'auto',block:'nearest'});}
-  function feedback(kind,title,body) {state.feedback={kind,title,body};render();}
-  function placeFile(fileId,folderId) {
-    if(state.phase!==3||state.solved)return;
-    if(!files.some(f=>f.id===fileId)||!folders.some(f=>f.id===folderId))return;
-    state.locations[fileId]=folderId;state.selectedFile=null;state.feedback=null;render();
-  }
-  function verifyPick(correct) {
-    if(!state.chosen)return;
-    if(state.chosen===correct){
-      state.solved=true;
-      feedback('good',state.phase===1?'Document de référence retrouvé.':'Version applicable identifiée.',state.phase===1?
-        'Le document sélectionné est celui de l’année visée, avec validation explicite de la coordination et contenu répondant à la demande. Le « final_v4 » plus récent était encore un brouillon.':
-        'La v2 approuvée est la version à utiliser. Le fichier « FINAL_v3 » est plus récent mais n’a pas encore été validé.');
-    }else{
-      state.attempts++;
-      feedback('bad','Sélection à réexaminer.','Le fichier choisi ne réunit pas toutes les preuves nécessaires. Comparez son usage, son statut, l’auteur responsable et l’historique de validation.');
-    }
-  }
-  function verifyFolders() {
-    if(files.some(f=>!state.locations[f.id]))return;
-    let errors=files.filter(f=>state.locations[f.id]!==f.target);
-    if(!errors.length){state.solved=true;feedback('good','Classement cohérent.','Les ressources pédagogiques, pièces d’organisation, références vérifiables et documents à contrôler sont séparés selon leur finalité.');}
-    else {state.attempts++;feedback('bad',`${errors.length} classement(s) à revoir.`,
-      'Les fichiers à réexaminer sont : '+errors.map(f=>f.name).join(' ; ')+'. Reprenez les finalités des dossiers ; un fichier douteux ne doit pas rejoindre les références fiables.');}
-  }
-  function verifyTrace() {
-    if(!state.chosen)return;
-    if(state.chosen==='t2'){state.solved=true;feedback('good','Chaîne de provenance identifiée.','La référence donne l’organisme, le document, la date, la localisation exacte du tableau et l’accès à la méthode et aux données sources. Cela permet un contrôle réel.');}
-    else {state.attempts++;feedback('bad','Preuve insuffisante.','La trace retenue ne permet pas de contrôler à la fois la source, les données initiales et la méthode. Une impression de crédibilité n’est pas une référence reproductible.');}
-  }
-  root.addEventListener('click',(e)=>{
-    const btn=e.target.closest('button[data-act]');
-    if(!btn || !root.contains(btn))return;
-    const act=btn.dataset.act;
-    switch(act){
-      case 'start':state.start=Date.now();transition(1);break;
-      case 'restart':state.start=Date.now();state.attempts=0;state.locations={};state.observed=0;transition(0);break;
-      case 'next':if(state.solved)transition(state.phase+1);break;
-      case 'inspect':if(!state.solved){state.chosen=btn.dataset.id;state.feedback=null;render();}break;
-      case 'choose-trace':if(!state.solved){state.chosen=btn.dataset.id;state.feedback=null;render();}break;
-      case 'verify-choice':if(!state.solved)verifyPick(btn.dataset.correct);break;
-      case 'verify-folders':if(!state.solved)verifyFolders();break;
-      case 'verify-trace':if(!state.solved)verifyTrace();break;
-      case 'hint':state.hint=true;render();break;
-      case 'select-move-file':if(!state.solved){state.selectedFile=btn.dataset.id;state.feedback=null;render();}break;
-      case 'place-folder':if(state.selectedFile)placeFile(state.selectedFile,btn.dataset.folder);break;
-      case 'reset-folders':if(!state.solved){state.locations={};state.selectedFile=null;state.feedback=null;render();}break;
-      case 'copy-summary':{
-        const summary='Le dossier impossible — Bilan\n1. Valider la version, pas le nom du fichier.\n2. Organiser par usage et documenter les conventions.\n3. Isoler les ressources de provenance inconnue.\n4. Tracer une source et ses données avant réutilisation.\nQuestion : comment appliquer ces principes à mon propre espace documentaire ?';
-        if(navigator.clipboard && window.isSecureContext){navigator.clipboard.writeText(summary).then(()=>feedback('good','Bilan copié.','Vous pouvez le coller dans vos notes personnelles.')).catch(()=>feedback('bad','Copie indisponible.','Sélectionnez les quatre points du bilan à l’écran pour les copier.'));}
-        else {feedback('bad','Copie automatique indisponible.','Utilisez Ctrl+C / Copier après avoir sélectionné le texte du bilan affiché.');}
-        break;
-      }
-    }
-  });
-  root.addEventListener('dragstart',(e)=>{
-    const card=e.target.closest('[draggable="true"][data-id]');
-    if(!card || state.phase!==3 || state.solved)return;
-    e.dataTransfer.setData('text/plain',card.dataset.id);
-    e.dataTransfer.effectAllowed='move';
-  });
-  root.addEventListener('dragover',(e)=>{
-    const folder=e.target.closest('[data-drop]');
-    if(!folder || state.phase!==3 || state.solved)return;
-    e.preventDefault();e.dataTransfer.dropEffect='move';folder.classList.add('fmt-drop-active');
-  });
-  root.addEventListener('dragleave',(e)=>{
-    const folder=e.target.closest('[data-drop]');
-    if(folder&&!folder.contains(e.relatedTarget))folder.classList.remove('fmt-drop-active');
-  });
-  root.addEventListener('drop',(e)=>{
-    const folder=e.target.closest('[data-drop]');
-    if(!folder || state.phase!==3 || state.solved)return;
-    e.preventDefault();const id=e.dataTransfer.getData('text/plain');placeFile(id,folder.dataset.drop);
-  });
-  render();
+<noscript>JavaScript est nécessaire au fonctionnement de cette simulation.</noscript>
+<script>
+(()=>{
+'use strict';
+const stage=document.getElementById('stage');const progress=document.getElementById('progress');const clock=document.getElementById('clock');
+const ESC=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const brief=[
+ {id:'DOC-01',name:'Atelier_EMI_final_v4.docx',date:'17/11/2026',type:'DOCX',owner:'Équipe projet',state:'Brouillon',details:'Corrections demandées le 17/11 ; aucun visa de la coordination.'},
+ {id:'DOC-02',name:'2026-11-12_EMI_deroule_v02_VALIDE.docx',date:'12/11/2026',type:'DOCX',owner:'Coordination',state:'Validé',details:'Déroulé de séance approuvé, édition autorisée aux coordinateurs.'},
+ {id:'DOC-03',name:'EMI_support_ok.pdf',date:'12/11/2026',type:'PDF',owner:'Coordination',state:'Validé',details:'Support de projection. Ce n’est pas le déroulé de séance.'},
+ {id:'DOC-04',name:'inscriptions_2026_final_v3.csv',date:'16/11/2026',type:'CSV',owner:'Bureau numérique',state:'Test',details:'Export d’essai ; contient une ligne dupliquée, non validé.'},
+ {id:'DOC-05',name:'2026-11-10_ProjetNUM_inscriptions_v02_VALIDE.csv',date:'10/11/2026',type:'CSV',owner:'Bureau numérique',state:'Validé',details:'Extraction contrôlée, anomalies documentées dans le journal de traitement.'},
+ {id:'DOC-06',name:'inscriptions_avant_correction.csv',date:'08/11/2026',type:'CSV',owner:'Bureau numérique',state:'Obsolète',details:'Version antérieure contenant des doublons.'},
+ {id:'DOC-07',name:'fiche_accessible_versionfinale.pdf',date:'13/11/2026',type:'PDF',owner:'Coordination',state:'À vérifier',details:'Simple numérisation image : le texte ne peut pas être sélectionné.'},
+ {id:'DOC-08',name:'2026-11-15_EMI_fiche-synthese_v03_VALIDE.pdf',date:'15/11/2026',type:'PDF',owner:'Cellule accessibilité',state:'Validé',details:'Texte sélectionnable, titres structurés, description textuelle des visuels, validation de l’équipe.'},
+ {id:'DOC-09',name:'fiche_EMI_reprise-site-inconnu.pdf',date:'17/11/2026',type:'PDF',owner:'Inconnu',state:'À vérifier',details:'Auteur, licence et origine non identifiés ; contenu ressemblant à la fiche.'},
+ {id:'DOC-10',name:'notes_reunion_EMI_final.txt',date:'16/11/2026',type:'TXT',owner:'Participant',state:'Non validé',details:'Compte rendu personnel non relu ; n’est pas une ressource de diffusion.'}
+];
+const findTasks=[
+ {id:'find1',text:'Le service pédagogique demande le déroulé de l’atelier EMI, modifiable et explicitement validé. Quel fichier transmettre ?',correct:'DOC-02',why:'Un nom comportant « final » ne constitue pas une validation ; on distingue également le déroulé du support de présentation.'},
+ {id:'find2',text:'La coordination doit analyser les inscriptions à partir d’une extraction contrôlée. Quel fichier retenir ?',correct:'DOC-05',why:'La version la plus récente n’est pas nécessairement la bonne : DOC-04 est un export de test.'},
+ {id:'find3',text:'Une fiche de synthèse doit pouvoir être consultée et réutilisée dans de bonnes conditions d’accessibilité. Quelle version choisir ?',correct:'DOC-08',why:'Le PDF est vérifié et exploitable ; la simple numérisation n’est pas équivalente à un document structuré.'}
+];
+const renameTasks=[
+ {id:'name1',t:'Fiche d’animation EMI approuvée le 12/11/2026, version 2',options:['EMI - le bon document final.docx','2026-11-12_EMI_fiche-animation_v02_VALIDE.docx','2026.11.12_final_EMI (2).docx'],correct:1,why:'Date ISO, sujet, nature du document, version et statut explicite.'},
+ {id:'name2',t:'Données sources de l’enquête 2026, reçues le 10/11/2026, version 1',options:['2026-11-10_ProjetNUM_enquete-SOURCE_v01.csv','2026-11-10_resultats-finaux_v01.csv','Données de novembre.csv'],correct:0,why:'« SOURCE » signifie que le fichier est préservé comme entrée de traitement, pas présenté comme résultat final.'},
+ {id:'name3',t:'Graphique révisé le 18/11/2026, version 3, en attente de validation',options:['Graphique validé - nouveau.png','2026-11-18_ProjetNUM_graphique-v03_VALIDE.png','2026-11-18_ProjetNUM_graphique_v03_BROUILLON.png'],correct:2,why:'Le nom doit distinguer un graphique non validé d’une production publiable.'},
+ {id:'name4',t:'Questionnaire anonymisé archivé le 19/11/2026, version 1',options:['2026-11-19_ProjetNUM_questionnaire-anonyme_v01_ARCHIVE.csv','Questionnaire terminé complet.csv','2026-11-19_ProjetNUM_questionnaire-nominatif_v01_ARCHIVE.csv'],correct:0,why:'Le nom signale à la fois l’état d’archivage et la nature anonymisée de la copie.'},
+ {id:'name5',t:'Compte rendu validé le 20/11/2026, version 2, à distinguer d’un compte rendu préparatoire',options:['Compte rendu final-final 2026.docx','2026-11-20_ProjetNUM_compte-rendu_v02_VALIDE.docx','2026-11-20_ProjetNUM_compte-rendu_v02_BROUILLON.docx'],correct:1,why:'Une version doit être traçable et son statut ne doit pas être ambigu.'}
+];
+const folders=[['productions','01_Productions_validées','Supports utilisables et validés'],['sources','02_Données_sources','Entrées de traitement non altérées'],['travail','03_Travail_en_cours','Brouillons et exports de test'],['refs','04_Références_et_droits','Métadonnées, licences et documents de référence'],['archive','05_Archives','Versions remplacées, conservées à titre documentaire'],['verif','99_À_vérifier','Provenance ou droit de réutilisation non établi']];
+const sorting=[
+ {id:'sort1',name:'Déroulé_EMI_v02_VALIDE.docx',context:'Déroulé approuvé par la coordination',correct:'productions'},
+ {id:'sort2',name:'Support_EMI_v03_VALIDE.pdf',context:'Diaporama final approuvé',correct:'productions'},
+ {id:'sort3',name:'Atelier_EMI_v04_BROUILLON.docx',context:'Révisions en cours',correct:'travail'},
+ {id:'sort4',name:'inscriptions_SOURCE_v01.csv',context:'Extraction initiale à conserver sans modification',correct:'sources'},
+ {id:'sort5',name:'inscriptions_TEST_v03.csv',context:'Export d’essai non contrôlé',correct:'travail'},
+ {id:'sort6',name:'graphique_usage_v02_VALIDE.png',context:'Graphique approuvé pour diffusion',correct:'productions'},
+ {id:'sort7',name:'graphique_usage_v01.png',context:'Ancienne version remplacée',correct:'archive'},
+ {id:'sort8',name:'photo_brochure.jpg',context:'Image récupérée sans auteur ni licence identifiable',correct:'verif'},
+ {id:'sort9',name:'catalogue_ressources-et-licences.csv',context:'Index contenant les crédits et les droits de réutilisation',correct:'refs'},
+ {id:'sort10',name:'guide_institutionnel_2025.pdf',context:'Document de référence identifié et daté',correct:'refs'},
+ {id:'sort11',name:'compte-rendu_2026_v01_BROUILLON.docx',context:'Notes à relire et à faire valider',correct:'travail'},
+ {id:'sort12',name:'fiche_pratique_EMI_v03_VALIDE.pdf',context:'Version accessible et validée',correct:'productions'},
+ {id:'sort13',name:'article_anonyme_copie.html',context:'Copie sans URL, sans auteur et sans date',correct:'verif'}
+];
+const traceCases=[
+ {id:'trace1',title:'Données ouvertes réutilisables',desc:'Un jeu de données est disponible sur un portail institutionnel. Tu disposes de l’URL, de la date de téléchargement, de la version et des conditions de réutilisation.',options:['Enregistrer ces métadonnées dans l’index et conserver les données sources intactes.','Garder uniquement une capture d’écran du tableau.','Renommer le fichier « officiel » sans autre documentation.'],correct:0,why:'URL, producteur, date, version et conditions forment une trace réutilisable.'},
+ {id:'trace2',title:'Photographie trouvée dans un réseau social',desc:'Une illustration pédagogique paraît parfaite, mais le post ne mentionne ni auteur, ni licence, ni photographie d’origine.',options:['La diffuser, puisque le compte est public.','Rechercher l’origine et les droits ; en l’absence de preuve, la mettre dans « À vérifier ».','Ajouter simplement « Source : Internet ».'],correct:1,why:'Être visible sur Internet ne signifie pas être réutilisable sans condition.'},
+ {id:'trace3',title:'Statistique citée dans un billet',desc:'Une publication mentionne « 68 % des enseignants », mais ne relie ni rapport, ni méthode d’enquête.',options:['Garder le pourcentage car il est plausible.','Créer un graphique immédiatement pour le rendre convaincant.','Retrouver le rapport ou la donnée originale avant de reprendre la valeur.'],correct:2,why:'L’origine et la méthode conditionnent la portée d’une statistique.'},
+ {id:'trace4',title:'Version ancienne d’un guide',desc:'Le fichier local date de 2023 ; la page officielle signale une édition mise à jour en 2026.',options:['Vérifier les différences, mettre à jour l’index et identifier l’édition réellement utilisée.','Conserver l’ancien PDF en le renommant 2026.','Supprimer toute mention de version pour éviter la confusion.'],correct:0,why:'La traçabilité comprend la version exacte utilisée et son évolution.'},
+ {id:'trace5',title:'Résumé fourni par une IA',desc:'Un assistant propose une synthèse très plausible et cite trois études, mais deux références ne sont pas retrouvées.',options:['Archiver la sortie IA comme source primaire.','Vérifier les études sur leurs sites d’origine et ne conserver que les affirmations étayées.','Conserver le résumé en citant simplement le nom du chatbot.'],correct:1,why:'Une sortie d’IA ne dispense ni de retrouver les sources ni de vérifier les affirmations.'},
+ {id:'trace6',title:'Illustration sous licence CC BY',desc:'Une image possède un auteur, une URL et une licence CC BY clairement indiqués.',options:['Conserver seulement le fichier image.','Supprimer le nom de l’auteur pour gagner de la place.','Reporter auteur, URL et licence dans l’index, et respecter les conditions d’attribution.'],correct:2,why:'L’index doit rendre la réutilisation possible et traçable.'}
+];
+const dataset=[
+ ['1','E01','1A','12','Validé'],['2','E02','1B','15','Validé'],['3','E03','2A','18','Validé'],['4','E04','2B','14','Validé'],['5','E05','3A','16','Validé'],['6','E06','3B','17','Validé'],['7','E07','3C','—','À compléter'],['8','E08','4A','19','Validé'],['9','E09','4B','21','Validé'],['10','E04','2B','14','Copie importée'],['11','E10','4C','165','À vérifier'],['12','E11','1C','0','Validé']
+];
+const dataQuestions=[
+ {id:'data_total',title:'Quel résultat est rigoureux à ce stade ?',options:['132 participations confirmées pour les lignes contrôlées, sans prétendre que ce soit le total global.','132 participations au total, sans réserve.','297 participations, en incluant la valeur 165 non vérifiée.'],correct:0,why:'Les 9 lignes contrôlées totalisent 132 (12+15+18+14+16+17+19+21+0), mais les valeurs manquantes ou suspectes empêchent un total global définitif.'},
+ {id:'data_zero',title:'La valeur « 0 » pour la ligne 12 doit-elle être supprimée ?',options:['Oui : zéro veut toujours dire absence de réponse.','Non : c’est une valeur numérique possible et validée, distincte d’une donnée manquante.','Oui : sinon le graphique sera moins esthétique.'],correct:1,why:'Zéro et valeur manquante n’ont pas la même signification ; ici la ligne est validée.'},
+ {id:'data_chart',title:'Quelle visualisation choisir pour comparer les groupes ?',options:['Un graphique en secteurs calculé en remplaçant toutes les valeurs manquantes par zéro.','Une courbe temporelle reliant les classes comme s’il s’agissait de dates.','Un graphique en barres par groupe avec mention des données non contrôlées et de l’incomplétude.'],correct:2,why:'Un diagramme en barres permet la comparaison catégorielle, à condition de signaler ce qui n’a pas été vérifié.'}
+];
+const publishCases=[
+ {id:'pub1',title:'Une version validée est prête à être partagée.',text:'La direction souhaite envoyer le déroulé aux collègues, sans risque de modification accidentelle.',options:['Partager la version validée en lecture seule et conserver la version de travail séparée.','Envoyer le brouillon le plus récent, car il porte le numéro de version le plus élevé.','Partager le dossier complet en modification avec toute personne ayant le lien.'],correct:0,why:'Diffusion, version et droits d’accès doivent correspondre au besoin.'},
+ {id:'pub2',title:'Une source n’a pas de licence identifiable.',text:'Une photographie non attribuée paraît idéale pour la brochure finale.',options:['L’insérer, en mentionnant « trouvé sur le Web ».','La placer en attente et trouver une ressource avec origine et droits vérifiables.','L’insérer dans le document sans la montrer au public.'],correct:1,why:'Une ressource de provenance inconnue ne doit pas être présentée comme réutilisable.'},
+ {id:'pub3',title:'La synthèse numérique comporte des lacunes.',text:'Le fichier CSV contient des groupes dont les effectifs restent à contrôler.',options:['Écarter les lignes inconnues sans mention de la limite.','Afficher un total global précis en supposant les valeurs manquantes nulles.','Publier seulement les résultats vérifiés, avec les limites, ou différer la synthèse globale.'],correct:2,why:'La précision apparente ne remplace pas la qualité des données.'},
+ {id:'pub4',title:'Une collègue souhaite retrouver les références dans six mois.',text:'Le dossier final est utilisable, mais plusieurs références sont enregistrées uniquement comme captures d’écran.',options:['Joindre un index des sources avec les URL, dates, versions et conditions de réutilisation.','Supprimer les références pour alléger le dossier.','Garder uniquement une liste de noms de fichiers.'],correct:0,why:'L’index rend le dossier vérifiable et évolutif.'},
+ {id:'pub5',title:'Un fichier de travail comporte une ambiguïté.',text:'Deux documents portent « final » dans leur nom, mais un seul a reçu le visa de la coordination.',options:['Publier les deux en demandant aux collègues de choisir.','Publier la version validée et archiver ou isoler l’autre avec son statut explicite.','Publier le fichier qui a été modifié le plus récemment.'],correct:1,why:'Le statut documenté prime sur le nom et la seule date de modification.'}
+];
+const sections=[
+ {title:'Sélectionner les bonnes pièces',time:'4–5 min'},
+ {title:'Construire une convention de nommage',time:'3–4 min'},
+ {title:'Réorganiser le dossier partagé',time:'5–6 min'},
+ {title:'Restaurer la traçabilité',time:'4–5 min'},
+ {title:'Contrôler un tableau de données',time:'4–5 min'},
+ {title:'Préparer la livraison',time:'3–4 min'}
+];
+const S={phase:-1,answers:{},attempts:{},hints:{},revealed:{},reasons:{},done:{},start:null,elapsed:0,expert:false};
+const now=()=>Date.now();const mins=()=>S.start?Math.floor((now()-S.start)/60000):0;
+function tick(){if(S.start)clock.textContent=String(Math.floor((now()-S.start)/60000)).padStart(2,'0')+':'+String(Math.floor(((now()-S.start)/1000)%60)).padStart(2,'0');}setInterval(tick,1000);
+function reset(){S.answers={};S.attempts={};S.hints={};S.revealed={};S.reasons={};S.done={};S.phase=-1;S.start=null;S.expert=false;render();}
+function status(){const spans=[...progress.children];spans.forEach((el,i)=>{el.className=S.phase>i?'done':S.phase===i?'current':'';el.title=`Mission ${i+1} : ${sections[i].title}`;});}
+function mainhead(n,description){const t=sections[n];return `<p class="eyebrow">Mission ${n+1} / 6 · Durée indicative ${t.time}</p><h2>${ESC(t.title)}</h2><p class="lead">${description}</p><div class="pills"><span class="pill">Enquête documentaire</span><span class="pill">Décisions justifiées</span><span class="pill">Sans pénalité de temps</span></div>`;}
+function buttons(n){return `<div class="actions">${!S.done[n]?`<button type="button" class="btn" data-action="check" data-mission="${n}">Vérifier mes décisions</button><button type="button" class="btn neutral" data-action="hint" data-mission="${n}">Un indice</button>`:`<button type="button" class="btn" data-action="next">${n===5?'Afficher le bilan':'Mission suivante'} →</button>`}<span class="small">${S.done[n]?'Mission validée.':`Réponses modifiables avant validation.`}</span></div>${S.hints[n]?`<div class="hint"><strong>Indice :</strong> ${ESC(hintText[n])}</div>`:''}<div id="livefeedback">${feedbackHtml(n)}</div>`;}
+const hintText=[
+ 'Ne confonds pas « le plus récent », « le mieux nommé » et « approuvé ». Compare le statut, l’usage et les métadonnées.',
+ 'Applique toujours l’ordre : AAAA-MM-JJ_Projet_type_vXX_STATUT.extension. Les mentions de validation doivent correspondre aux faits.',
+ 'Un fichier sans provenance n’est pas une donnée source fiable. Un brouillon n’est pas une version publiable. Les anciennes versions ne doivent pas disparaître sans logique.',
+ 'Une ressource réutilisable doit pouvoir être retrouvée et son usage justifié : auteur, URL, date, version et droits, selon le type.',
+ 'Repère trois problèmes de nature différente : une donnée manquante, un doublon et une valeur à confirmer. Une valeur zéro validée n’est pas nécessairement une anomalie.',
+ 'La livraison doit être vérifiable par un tiers : statut, droits, limites de l’analyse et références.'
+];
+function feedbackHtml(n){const f=S.revealed[n];if(!f)return '';const cls=f.ok?'success':'error';return `<div class="${cls} feedback" role="status"><strong>${f.ok?'Contrôle réussi':'Des corrections sont nécessaires'}</strong><p>${f.ok?'Tes décisions sont cohérentes avec les métadonnées de cette simulation.':'Reprends les points ci-dessous, puis vérifie à nouveau.'}</p>${f.messages.length?`<ul>${f.messages.map(x=>`<li>${ESC(x)}</li>`).join('')}</ul>`:''}</div>`;}
+function choices(tasks){return tasks.map((q,i)=>{const val=S.answers[q.id];return `<fieldset class="optblock"><legend class="question">${i+1}. ${ESC(q.title||q.t)}</legend>${q.text?`<p class="desc">${ESC(q.text)}</p>`:''}${q.desc?`<p class="desc">${ESC(q.desc)}</p>`:''}${q.options.map((o,j)=>`<label class="choice ${Number(val)===j?'checked':''}"><input type="radio" name="${ESC(q.id)}" data-field="${ESC(q.id)}" value="${j}" ${Number(val)===j?'checked':''} ${S.done[S.phase]?'disabled':''}><span>${ESC(o)}</span></label>`).join('')}</fieldset>`;}).join('');}
+const prompts=[
+ 'Une version porte la mention « final », mais n’est pas validée. Explique ton critère de sélection à un collègue.',
+ 'Quels deux principes de nommage rendraient ce dossier exploitable six mois plus tard ?',
+ 'Choisis un document difficile à classer et explique ta décision, y compris son éventuel statut « À vérifier ». ',
+ 'Quels éléments minimum figureront dans ton index pour permettre la réutilisation des ressources ?',
+ 'Rédige la réserve méthodologique que tu placerais sous une visualisation construite à partir de ce tableau.',
+ 'Quel contrôle t’a semblé le plus important avant diffusion, et pourquoi ?'
+];
+function rationaleBlock(n){const v=S.reasons['note'+n]||'';return `<div class="checkpoint"><label for="rationale${n}">Note d’audit — ${ESC(prompts[n])}</label><textarea id="rationale${n}" data-rationale="note${n}" placeholder="Rédige une justification personnelle concise…" ${S.done[n]?'disabled':''}>${ESC(v)}</textarea><p class="tiny">Deux phrases suffisent. La note est conservée localement pendant la partie et ajoutée au bilan téléchargeable. Aucun contenu n’est envoyé au formateur.</p></div>`;}
+function renderWelcome(){return `<p class="eyebrow">Simulation professionnelle · 20 à 30 minutes visées</p><h2>Une inspection du dossier documentaire commence dans une heure.</h2><p class="lead">Tu coordonnes la préparation d’une mallette pédagogique destinée à plusieurs équipes enseignantes. Le répertoire partagé mélange les brouillons, les versions validées, les ressources sans provenance et un tableau de données à contrôler.</p><div class="cards"><div class="card cream"><h3>Ta mission</h3><p><strong>Livrer un dossier fiable, identifiable, exploitable et réutilisable par un collègue absent.</strong> Tu dois expliquer tes choix, pas seulement retrouver un fichier.</p><p class="small">Le scénario est fictif. Aucun document réel, élève ou établissement n’est concerné.</p></div><div class="card soft"><h3>Les six étapes</h3><ol class="rules">${sections.map((s,i)=>`<li>${ESC(s.title)} <span class="tag">${ESC(s.time)}</span></li>`).join('')}</ol></div></div><div class="info"><strong>À la fin :</strong> tu auras une sélection de pièces, une nomenclature, un plan de rangement, un protocole de traçabilité, une analyse prudente des données et une décision de diffusion. Tu pourras télécharger un bilan à exploiter en débriefing.</div><div class="warn">Ce jeu est un <strong>entraînement formatif</strong> à l’AA2. Il ne remplace pas la production personnelle du dossier 03 du portfolio.</div><div class="actions"><button class="btn" data-action="start">Prendre en charge le dossier →</button><span class="small">Aucun compte, aucune réponse envoyée, pas de chronomètre bloquant.</span></div>`;}
+function renderFind(){let q=mainhead(0,'Trois demandes urgentes viennent d’arriver. Observe les métadonnées, puis sélectionne les fichiers qui satisfont réellement chaque demande.');q+=`<div class="panel"><div class="panel-head">Répertoire partagé · 10 fichiers</div><div class="tablewrap" style="margin:0;border:0;border-radius:0"><table><thead><tr><th>ID</th><th>Nom</th><th>Modifié le</th><th>Statut</th><th>Responsable / Commentaire</th></tr></thead><tbody>${brief.map(x=>`<tr><td><code>${ESC(x.id)}</code></td><td><strong>${ESC(x.name)}</strong><br><span class="tiny">${ESC(x.type)}</span></td><td>${ESC(x.date)}</td><td>${ESC(x.state)}</td><td><span class="tiny">${ESC(x.owner)}</span><br>${ESC(x.details)}</td></tr>`).join('')}</tbody></table></div></div><div class="panel"><div class="panel-head">Demandes à satisfaire (3 décisions)</div>${findTasks.map((t,i)=>`<div class="req"><div><div class="question">${i+1}. ${ESC(t.text)}</div><div class="tiny">Une seule réponse convient à cette demande.</div></div><label><span class="sr">Choix de fichier ${i+1}</span><select data-field="${ESC(t.id)}" ${S.done[0]?'disabled':''}><option value="">— Choisir le fichier —</option>${brief.map(b=>`<option value="${ESC(b.id)}" ${S.answers[t.id]===b.id?'selected':''}>${ESC(b.id)} · ${ESC(b.name)}</option>`).join('')}</select></label></div>`).join('')}</div>`;return q+rationaleBlock(0)+buttons(0);}
+function renderNames(){return mainhead(1,'Une autre équipe doit pouvoir comprendre le contenu, la version et le statut de tes fichiers sans les ouvrir. Applique la convention commune ci-dessous à cinq cas réels de travail (simulation).')+`<div class="info"><strong>Convention retenue :</strong> <code>AAAA-MM-JJ_Projet_objet_vXX_STATUT.extension</code><br><span class="small">Dates ISO, libellés courts, absence de données personnelles dans le nom, statut documenté.</span></div>`+choices(renameTasks)+rationaleBlock(1)+buttons(1);}
+function renderSort(){return mainhead(2,'Choisis un emplacement pour chaque document. Tu peux garder une copie de source intacte, isoler les documents à vérifier et ne diffuser que les contenus validés.')+`<div class="panel"><div class="panel-head">Arborescence proposée (6 répertoires)</div><div class="panel-body"><div class="scheme">${folders.map(f=>`<div><b>${ESC(f[1])}</b><span class="tiny">${ESC(f[2])}</span></div>`).join('')}</div></div></div><div class="panel"><div class="panel-head">13 fichiers à classer</div>${sorting.map((t,i)=>`<div class="req"><div><div class="question">${i+1}. <code>${ESC(t.name)}</code></div><div class="note">${ESC(t.context)}</div></div><label><span class="sr">Dossier pour ${ESC(t.name)}</span><select data-field="${ESC(t.id)}" ${S.done[2]?'disabled':''}><option value="">— Destination —</option>${folders.map(f=>`<option value="${f[0]}" ${S.answers[t.id]===f[0]?'selected':''}>${ESC(f[1])}</option>`).join('')}</select></label></div>`).join('')}</div>`+rationaleBlock(2)+buttons(2);}
+function renderTrace(){return mainhead(3,'Retrouver une ressource ne suffit pas. Pour chaque cas, décide quelles informations conserver ou quelles vérifications entreprendre afin qu’un collègue puisse retracer et réutiliser le document.')+choices(traceCases)+rationaleBlock(3)+buttons(3);}
+function renderData(){return mainhead(4,'La coordination veut un premier bilan des inscriptions fictives à des ateliers numériques. Le tableau contient des erreurs et des valeurs non encore confirmées. Tu dois rendre ton analyse prudente et reproductible.')+`<div class="panel"><div class="panel-head">Extrait fictif · inscriptions aux ateliers (12 lignes)</div><div class="tablewrap" style="margin:0;border:0;border-radius:0"><table><thead><tr><th>Ligne</th><th>ID</th><th>Groupe</th><th>Effectif</th><th>Contrôle</th></tr></thead><tbody>${dataset.map(r=>`<tr>${r.map((v,i)=>`<td>${i===0?`<strong>${ESC(v)}</strong>`:ESC(v)}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div><fieldset class="optblock"><legend class="question">A. Quelles lignes doivent être examinées avant tout calcul global ? Coche exactement trois lignes.</legend><p class="desc">Identifie les trois anomalies documentaires significatives. Une valeur zéro validée n’est pas nécessairement une erreur.</p><div class="cards">${[7,10,11,12,6,9].map(i=>`<label class="choice ${S.answers['anom'+i]?'checked':''}"><input type="checkbox" data-field="anom${i}" ${S.answers['anom'+i]?'checked':''} ${S.done[4]?'disabled':''}><span>Ligne ${i}</span></label>`).join('')}</div></fieldset>`+choices(dataQuestions)+rationaleBlock(4)+buttons(4);}
+function renderPublish(){return mainhead(5,'Le dossier est presque prêt. La direction te soumet cinq dernières décisions de diffusion. Une réponse précipitée pourrait diffuser un brouillon, effacer des réserves ou empêcher la réutilisation.')+choices(publishCases)+`<div class="checkpoint"><label for="rationale">Note d’audit — quel contrôle t’a semblé le plus important, et pourquoi ?</label><textarea id="rationale" data-rationale="final" placeholder="Je vérifierais en priorité… parce que…" ${S.done[5]?'disabled':''}>${ESC(S.reasons.final||'')}</textarea><p class="tiny">Cette justification est incluse dans le bilan. Elle n’est pas analysée ni envoyée à un serveur.</p></div>`+buttons(5);}
+function renderEnd(){const count=Object.keys(S.done).filter(x=>S.done[x]).length;return `<p class="eyebrow">Mission accomplie · 6 étapes validées</p><h2>Le dossier est prêt pour une livraison contrôlée.</h2><p class="lead">Tu as produit les décisions essentielles pour que l’équipe retrouve des fichiers fiables, puisse comprendre leur statut et réutiliser des sources et des données.</p><div class="topstats"><div class="stat"><strong>${count}/6</strong>Missions validées</div><div class="stat"><strong>${mins()} min</strong>Temps de parcours</div><div class="stat"><strong>${Object.values(S.attempts).reduce((a,b)=>a+b,0)}</strong>Vérifications à reprendre</div></div><div class="report"><h3>Ton rapport d’audit</h3><ol><li><strong>Sélection :</strong> retenir le fichier validé pour le bon usage, pas simplement le plus récent.</li><li><strong>Nommage :</strong> date ISO, projet, type, version et statut sans ambiguïté.</li><li><strong>Rangement :</strong> séparer les sources, les travaux en cours, les validations, les archives et les pièces à vérifier.</li><li><strong>Traçabilité :</strong> conserver producteur, URL, date, version, droits et limites lorsque ces éléments sont pertinents.</li><li><strong>Données :</strong> contrôler doublons, lacunes et valeurs aberrantes avant de publier un indicateur.</li><li><strong>Diffusion :</strong> adapter l’accès, distinguer les versions et communiquer les limites de l’analyse.</li></ol><p><strong>Justification personnelle :</strong> ${S.reasons.final?ESC(S.reasons.final):'Non renseignée.'}</p></div><div class="actions"><button class="btn" data-action="download">Télécharger mon bilan (.txt)</button><button class="btn ghost" data-action="expert">${S.expert?'Masquer la contre-enquête':'Contre-enquête (approfondissement)'}</button><button class="btn neutral" data-action="restart">Recommencer</button></div>${S.expert?renderExpert():''}<div class="info"><strong>À discuter en groupe :</strong> qu’est-ce qui rend ce dossier exploitable pour un autre enseignant dans six mois ? Quelles erreurs d’organisation posent le plus de risques ?</div><p class="small">Ce bilan sert au débriefing. Pour l’AA2, le dossier 03 du portfolio reste une production personnelle distincte, constituée lors du travail autonome.</p>`;}
+function renderExpert(){return `<div class="panel"><div class="panel-head">Contre-enquête facultative · 5 à 7 minutes</div><div class="panel-body"><p>Ta collègue remet en question trois décisions. Pour chacune, formule mentalement une réponse documentée, puis ouvre l’explication.</p><details class="listcard"><summary><strong>1. « Un fichier validé n’a plus besoin de métadonnées. »</strong></summary><p>La validation ne garantit ni la provenance, ni la version utilisée, ni les droits de réutilisation. Ces éléments restent nécessaires pour la traçabilité.</p></details><details class="listcard"><summary><strong>2. « Un tableau contenant des valeurs manquantes est inutilisable. »</strong></summary><p>On peut produire une analyse partielle rigoureuse si son périmètre, ses exclusions et ses limites sont explicites. Il ne faut pas inventer les valeurs absentes.</p></details><details class="listcard"><summary><strong>3. « Toutes les ressources doivent être rangées à un seul endroit. »</strong></summary><p>Une source conservée intacte, une copie de travail et un résultat validé n’ont pas la même fonction. Un index et des liens permettent de les relier sans les confondre.</p></details></div></div>`;}
+function render(){progress.setAttribute('aria-label',S.phase===6?'Six missions terminées':`Mission ${S.phase+1} sur six`);status();stage.innerHTML=S.phase===-1?renderWelcome():S.phase===0?renderFind():S.phase===1?renderNames():S.phase===2?renderSort():S.phase===3?renderTrace():S.phase===4?renderData():S.phase===5?renderPublish():renderEnd();}
+function goto(p){S.phase=p;S.revealed[p]=null;render();window.scrollTo({top:0,behavior:'auto'});}
+function check(){const n=S.phase;let tasks=[],wrong=[],explanations=[];if(n===0)tasks=findTasks;if(n===1)tasks=renameTasks;if(n===2)tasks=sorting;if(n===3)tasks=traceCases;if(n===5)tasks=publishCases;if(n===4){const ids=[6,7,9,10,11,12];const chosen=ids.filter(x=>S.answers['anom'+x]).sort((a,b)=>a-b).join(',');if(chosen!=='7,10,11')wrong.push('Anomalies : repère les lignes avec valeur manquante, identifiant en doublon et valeur inhabituelle à confirmer.');tasks=dataQuestions;}
+for(const t of tasks){const a=S.answers[t.id];const corr=String(t.correct);const ok=!(a===undefined||a==='') && String(a)===corr;if(!ok){const name=t.title||t.t||t.name||t.text;wrong.push(`« ${name.slice(0,95)} » : choix à revoir.`);}else explanations.push(t.why||'');}
+const rid=n===5?'final':'note'+n;if((S.reasons[rid]||'').trim().length<70)wrong.push('Ajoute une justification personnelle de deux phrases environ (70 caractères minimum). Elle figure dans ton bilan ; le programme ne note pas automatiquement sa pertinence.');
+if(wrong.length){S.attempts[n]=(S.attempts[n]||0)+1;S.revealed[n]={ok:false,messages:wrong};render();const f=document.getElementById('livefeedback');if(f)f.scrollIntoView({block:'nearest'});return;}
+S.done[n]=true;S.revealed[n]={ok:true,messages:[...new Set(explanations)]};render();const f=document.getElementById('livefeedback');if(f)f.scrollIntoView({block:'nearest'});}
+function textReport(){return [
+ 'LE DOSSIER IMPOSSIBLE — BILAN DE SIMULATION',
+ 'UE 1 Informations et données · AA2 · Scénario fictif',
+ `Durée de parcours : ${mins()} minutes`,
+ `Vérifications à reprendre : ${Object.values(S.attempts).reduce((a,b)=>a+b,0)}`,
+ '', '1. BONNES PIÈCES', ...findTasks.map(t=>`${t.text}\nChoix : ${S.answers[t.id]} — ${t.why}`),
+ '', '2. NOMMAGE', ...renameTasks.map(t=>`${t.t}\nChoix : ${t.options[S.answers[t.id]]}`),
+ '', '3. CLASSEMENT', ...sorting.map(t=>`${t.name} => ${folders.find(f=>f[0]===S.answers[t.id])?.[1]||'non renseigné'}`),
+ '', '4. TRAÇABILITÉ', ...traceCases.map(t=>`${t.title} : ${t.options[S.answers[t.id]]}`),
+ '', '5. CONTRÔLE DE DONNÉES', 'Lignes à examiner : 7 (manquante), 10 (doublon), 11 (valeur à confirmer).',...dataQuestions.map(t=>`${t.title} ${t.options[S.answers[t.id]]}`),
+ '', '6. DIFFUSION',...publishCases.map(t=>`${t.title} : ${t.options[S.answers[t.id]]}`),
+ '', 'JUSTIFICATION PERSONNELLE',S.reasons.final||'(non renseignée)',
+ '', 'APPRENTISSAGE À TRANSFÉRER',
+ 'Organiser et documenter mes propres ressources et mes données dans le dossier 03 du portfolio.',
+ 'Ce bilan n’est pas une attestation certificative.', '', 'NOTES D’AUDIT', ...prompts.map((t,i)=>`${i+1}. ${t}\n${S.reasons[i===5?'final':'note'+i]||'(aucune note)'}`)
+ ].join('\n');}
+function download(){const blob=new Blob([textReport()],{type:'text/plain;charset=utf-8'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='bilan_dossier_impossible.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);}
+function onChange(e){let target=e.target;const id=target.dataset.field;if(id){S.answers[id]=target.type==='checkbox'?target.checked:target.value;S.revealed[S.phase]=null;if(target.type==='radio'){const card=target.closest('fieldset');if(card)card.querySelectorAll('.choice').forEach(c=>c.classList.toggle('checked',c.contains(target)));}else if(target.type==='checkbox'){target.closest('.choice')?.classList.toggle('checked',target.checked);}return;}if(target.dataset.rationale){S.reasons.final=target.value;S.revealed[S.phase]=null;}}
+function onClick(e){const b=e.target.closest('button[data-action]');if(!b)return;switch(b.dataset.action){case 'start':S.start=now();goto(0);break;case 'hint':S.hints[S.phase]=true;render();break;case 'check':check();break;case 'next':if(S.done[S.phase])goto(S.phase+1);break;case 'restart':if(confirm('Recommencer la simulation depuis le début ?')){reset();window.scrollTo({top:0,behavior:'auto'});}break;case 'download':download();break;case 'expert':S.expert=!S.expert;render();break;}}
+stage.addEventListener('change',onChange);stage.addEventListener('input',e=>{const rid=e.target.dataset.rationale;if(rid)S.reasons[rid]=e.target.value;});stage.addEventListener('click',onClick);
+render();
 })();
-</script></body></html>
+</script>
+</body>
+</html>
